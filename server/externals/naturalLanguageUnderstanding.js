@@ -1,8 +1,12 @@
 const indeed = require('./indeed.js');
 const fs = require('fs');
 const path = require('path');
-const analyzerUser = process.env.WATSONANALYZERUSER;
-const analyzerPass = process.env.WATSONANALYZERPASS;
+const API_KEYS = require('../../lib/api_keys.js')
+// const analyzerUser = process.env.WATSONANALYZERUSER;
+// const analyzerPass = process.env.WATSONANALYZERPASS;
+
+const analyzerUser = API_KEYS.nlu_username;
+const analyzerPass = API_KEYS.nlu_password;
 
 let serverPath = path.join(__dirname, '../');
 let NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
