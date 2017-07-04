@@ -38,6 +38,7 @@ app.set('port', (process.env.PORT || 5000));
 
 
 app.post('/', (req, res, next) => {
+  console.log('index.js POST request to /');
   let userReq = {
     body: req.body.query,
     ip: req.headers['x-forwarded-for'],
@@ -48,6 +49,7 @@ app.post('/', (req, res, next) => {
 
 
 app.post('/upload', (req, res, next) => {
+  console.log('index.js POST request to /upload');
   docConverter.convertDoc(req, (error, response) => {
     if (error) {
       res.send(error);
@@ -62,8 +64,11 @@ app.post('/upload', (req, res, next) => {
 
 
 app.post('/load', (req, res) => {
+  console.log('index.js POST request to /load');
+
   db.query(`SELECT * FROM users WHERE facebook_id = '${req.body.id}'`)
     .then(result => {
+      console.log('Successfully retrieved users from USER table with result: ', result);
       if (result.length === 0) {
         throw doNotAutoLoad
       }
@@ -72,17 +77,21 @@ app.post('/load', (req, res) => {
     .then(user_id => {
       db.query(`SELECT keywords FROM resumes WHERE user_id = '${user_id}'`)
         .then(result => {
+          console.log('Successfully retrieved users from RESUME table with result: ', result);
           res.send(result[0].keywords);
         });
     }) 
     .catch(doNotAutoLoad => {
       res.send();
     })
+
 });
 
 app.post('/saveQuery', (req, res) => {
+  console.log('index.js POST call to /saveQuery');
   db.query(`SELECT * FROM users WHERE facebook_id = '${req.body.id}'`)
     .then(result => {
+      console.log('Successfully retrieved from USERS table: ', result);
       if (result.length === 0) {
         db.query(`INSERT INTO "public"."users"("facebook_id") VALUES('${req.body.id}') RETURNING "id", "facebook_id";`);
         throw notInDb;
@@ -90,12 +99,14 @@ app.post('/saveQuery', (req, res) => {
       return result[0].id;
     })
     .then(user_id => {
+      console.log('Successfully retrieved userID: ', user_id);
       db.query(`UPDATE "public"."resumes" SET "keywords"='${req.body.query}' WHERE "user_id"=${user_id} RETURNING "id", "user_id", "keywords";`);
       res.send()        
     })
     .catch(notInDb => {
       db.query(`SELECT id FROM users where facebook_id = '${req.body.id}'`)
         .then(user_id => {
+          console.log('Successfully retrieved userID from users: ', user_id);
           db.query(`INSERT INTO "public"."resumes"("user_id", "keywords") VALUES(${user_id[0].id}, '${req.body.query}') RETURNING "id", "user_id", "keywords";`);
           res.send();
         });
@@ -107,5 +118,6 @@ app.listen(app.get('port'), function() {
 });
 
 app.post('/', (req, res, next) => {
+  console.log('Inside POST at the end of the index.js');
   indeed.indeed(req, res, next);
 });
