@@ -1,0 +1,13 @@
+/*
+1. Follow the instructions here to install postgre on your macbook:
+https://www.codementor.io/devops/tutorial/getting-started-postgresql-server-mac-osx
+
+2. At the command line type createdb (sets up initial db for your macbook user) - don't worry too much about this
+3. Verify your postgres install by typing postgres -V (case sensitive)
+4. I didn't want to waste time researching how to run the schema.sql file so you will need to simply 
+  type (cmd-c / cmd-v) each line one at a time.
+5. After executing each line you should have the following:
+  new user: dbuser password: password
+  new db: surveryordb
+  2 tables: users, resumes
+*/
