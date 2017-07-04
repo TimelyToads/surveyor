@@ -6,9 +6,10 @@ const bodyParser = require('body-parser');
 const indeed = process.env.INDEED;
 
 module.exports.indeed = (details, res, next) => {
-  console.log('inside indeed...');
+  console.log('inside indeed with details: ', details);
   let city = 'san francisco';
   let state = 'CA';
+
   details.city = 'san francisco';
   details.state = 'CA';
     ipLookup(details.ip).then((result) => {
