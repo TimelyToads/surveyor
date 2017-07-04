@@ -3,8 +3,11 @@ var DocumentConversionV1 = require('watson-developer-cloud/document-conversion/v
 const FormData = require('form-data');
 const fs = require('file-system');
 const docAnalyzer = require('./naturalLanguageUnderstanding.js');
-const converterUser = process.env.WATSONCONVERTERUSER;
-const converterPass = process.env.WATSONCONVERTERPASS;
+const API_KEYS = require('../../lib/api_keys.js')
+// const converterUser = process.env.WATSONCONVERTERUSER;
+// const converterPass = process.env.WATSONCONVERTERPASS;
+const converterUser = API_KEYS.doc_conversion_username;
+const converterPass = API_KEYS.doc_conversion_password;
 
 let convertDoc = (doc, callback) => {
 
