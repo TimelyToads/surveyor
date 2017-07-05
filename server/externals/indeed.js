@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const API_KEYS = require('../../lib/api_keys.js')
 const indeed = API_KEYS.indeed_publisher_id;
 
-module.exports.indeed = (details, res, next) => {
-  console.log('inside indeed with details: ', details);
+let getJobPostings = (details, res, next) => {
+  console.log('inside getJobPostings with details: ', details);
   let city = 'san francisco';
   let state = 'CA';
 
@@ -30,7 +30,7 @@ module.exports.indeed = (details, res, next) => {
 let indeedFetch = (data, res, next) => {
   console.log('Inside indeedFetch with data: ', data);
 
-  fetch(`http://api.indeed.com/ads/apisearch?format=json&v=2&publisher=${indeed}&q=${data.body}&l=${data.city}%2C+${data.state}&userAgent=${data.userAgent}&limit=24&fromage=10&radius=100`, {
+  fetch(`http://api.indeed.com/ads/apisearch?format=json&v=2&publisher=${indeed}&q=${data.body}&l=${data.city}%2C+${data.state}&userAgent=${data.userAgent}&limit=33&fromage=3&radius=100`, {
     method: 'GET'
   }).then((response, error) =>{
     if (error) 
@@ -65,6 +65,10 @@ let ipLookup = ip => {
         }
       });
   });
+}
+
+module.exports = {
+  getJobPostings: getJobPostings
 }
 
 /*

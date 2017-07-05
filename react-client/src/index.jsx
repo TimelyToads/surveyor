@@ -175,7 +175,7 @@ class App extends React.Component {
 						<Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
 						<Menu.Item name='jobs' active={activeItem === 'messages'} onClick={this.handleItemClick} />
 						<Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
-            <Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
+            <Menu.Item name='resumes' active={activeItem === 'friends'} onClick={this.handleItemClick} />
 						<Menu.Menu position='right'>
 							 <Menu.Item>
                 <Button primary>Sign up</Button>
@@ -186,10 +186,6 @@ class App extends React.Component {
             </Menu.Item>
 						</Menu.Menu>
 					</Menu>
-
-					<Segment>
-						<img src='/assets/images/wireframe/paragraph.png' />
-					</Segment>
 				</div>
       <Dropzone
         disableClick
@@ -202,7 +198,6 @@ class App extends React.Component {
         { dropzoneActive && <div className="overlay">Release to Search</div> }
         <div style={style}>
           <Header jobs={this.state.jobs}/>
-          <div> <h1 id="title"> Surveyor  &#x1F50D; </h1></div>
         
   
         { (() => {
