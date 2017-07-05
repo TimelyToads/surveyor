@@ -11,6 +11,7 @@ import Header from './components/Header.jsx';
 import Start from './components/Start.jsx';
 import { Input, Menu, Segment, Button } from 'semantic-ui-react';
 import Login from './components/Authentication/Login.jsx';
+import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -184,7 +185,7 @@ class App extends React.Component {
               </Menu.Item>
 
             <Menu.Item>
-              <Button>Log-in</Button>
+              <GoogleAuth />
             </Menu.Item>
 						</Menu.Menu>
 					</Menu>

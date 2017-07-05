@@ -37,6 +37,9 @@ app.use(multer({storage: storage}).any());
 app.use(express.static(__dirname + '/../react-client/dist'));
 app.set('port', (process.env.PORT || 5000));
 
+// Google Auth
+
+
 
 app.post('/', (req, res, next) => {
   console.log('\nindex.js POST request to /  with request: ');

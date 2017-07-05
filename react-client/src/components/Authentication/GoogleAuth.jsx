@@ -1,8 +1,10 @@
 import React from 'React';
 import DocMeta from 'react-doc-meta';
-import API_KEYS from '../../../lib/api_keys.js';
+import API_KEYS from '../../../../lib/api_keys.js';
+import AuthHelper from '../../../../lib/AuthHelper.js';
 
 const GAPI_KEYS = API_KEYS.googleKeys;
+let GoogAuth;
 
 class GoogleAuth extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class GoogleAuth extends React.Component {
   }
 
   componentDidMount() {
+    gapi.load('client:auth2', this.initClient);
     gapi.signin2.render('g-signin2', {
 			'scope': 'profile email',
 			'width': 400,
@@ -21,89 +24,60 @@ class GoogleAuth extends React.Component {
 		});
   }
 
+  onSignInSuccess() {
 
-  onSignInSuccess(googleData) {
-    console.log('INSIDE Login.jsx/onSignInSuccess: ', googleData);
-
-    let googleUserObject = AuthenticationHelper.retrieveUserInfo(googleData);
-
-    window.authToken = googleData.getAuthResponse().id_token;
-
-    //Check if auth token is valid via Google
-    AuthenticationHelper.isTokenValid()
-      .then( res => {
-        console.log('Successfully called AuthenticationHelper.isUserAuthenticated()', res);
-        
-        //If auth token valid then query DB to see if user already exist
-        axios.get('/api/users/googleid', {
-          params: {
-            googleid: googleUserObject.username
-          }
-        })  
-          .then( userObj => {
-
-            //If user exists in DB then set the user object on the state
-            console.log('setting this.props.authenticateUserFunc ', userObj.data);
-            this.props.authenticateUserFunc(userObj.data);
-
-          })
-          .catch( err => {
-            
-            //User does not exist in DB create a new user in DB and set the googleUserObj to state
-            axios.post('/api/users', googleUserObject)
-            .then( res => {
-              console.log('Created new user in db ', googleUserObject);
-              this.props.authenticateUserFunc(googleUserObject);              
-            })
-            .catch( err => {
-              console.log('ERROR creating user after Login');
-            });
-
-          }); //end inner catch          
-        }) //end then
-      .catch( err => {
-        console.log('Error validating token', err);
-      });
-    
-	}
-  
-
-  onSignInFailure(err) {
-    console.log('Inside of onSignInFailure ', err);
   }
 
-  signOut() {
+  onSignInFailure() {
 
-    gapi.auth2.getAuthInstance()
-      .signOut()
-        .then( () => {
-          this.setState({
-            userLoggedIn: false,
-            currentUser: {}
-          });
-        });
   }
+
+  initClient() {
+    gapi.client.init({
+      'apiKey': GAPI_KEYS.apiKey,
+      'clientId': GAPI_KEYS.client_id,
+      'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly'],
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+  }).then(() => {
+      GoogAuth = gapi.auth2.getAuthInstance();
+    });
+  }
+
+  // signOut() {
+
+  // }
+
+  // setSigninStatus(isSignedIn) {
+  //   var user = GoogAuth.currentUser.get();
+  //   var isAuthorized = user.hasGrantedScopes(SCOPE);
+  //   if (isAuthorized) {
+  //     $('#sign-in-or-out-button').html('Sign out');
+  //     $('#revoke-access-button').css('display', 'inline-block');
+  //     $('#auth-status').html('You are currently signed in and have granted ' +
+  //         'access to this app.');
+  //   } else {
+  //     $('#sign-in-or-out-button').html('Sign In/Authorize');
+  //     $('#revoke-access-button').css('display', 'none');
+  //     $('#auth-status').html('You have not authorized this app or you are ' +
+  //         'signed out.');
+  //   }
+  // }
+
 
   render() {
-    let signOutLink = '';
-    // if (this.props.isAuthenticated()) {
-    //   signOutLink = <a href="#" onClick={this.signOut.bind(this)}>Sign out of ToadTryp</a>
-    // }
-
-    var tags = [
-      {name: "google-signin-client_id", content: `${GAPI_Keys.client_id}`},
+    const tags = [
+      {name: "google-signin-client_id", content: `${GAPI_KEYS.client_id}`},
       {name: "google-signin-scope", content: "profile email"}
     ]
     return (
       <div>
         <DocMeta tags={tags} />
-        <div id="g-signin2" />
-       {signOutLink}
+        <div id="g-signin2">  </div>
+        <hr/>
       </div>
-      
-    );
+    )
   }
 }
 
 
-export default withRouter(GoogleAuth);
+export default GoogleAuth;
