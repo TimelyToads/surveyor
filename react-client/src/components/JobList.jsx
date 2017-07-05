@@ -1,6 +1,7 @@
 import React from 'react';
 import JobListItem from './JobListItem.jsx';
 import Save from './Save.jsx';
+import { Header, Table, Rating } from 'semantic-ui-react'
 
 
 class JobList extends React.Component {
@@ -8,26 +9,39 @@ class JobList extends React.Component {
 		super(props);
 	}
 
-	handleItemClick(e, { name }) {
-		this.setState({ activeItem: name });
-	}
 
 	render() {
 
 		return (
-			<div>
-				<div className="job-list">
 					<div>
-						<Save saveQuery={this.props.saveQuery}/>
-					</div>
-					<div className="ui cards">
-						{this.props.jobList.map(item => <JobListItem jobListItem = {item}/>)}
-					</div>
-				</div>
+			    <Table celled padded>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Source</Table.HeaderCell>
+							<Table.HeaderCell width="1">Company</Table.HeaderCell>
+							<Table.HeaderCell>Job Title</Table.HeaderCell>
+							<Table.HeaderCell>Job Description</Table.HeaderCell>
+							<Table.HeaderCell>Location</Table.HeaderCell>
+							<Table.HeaderCell>Posted</Table.HeaderCell>
+							<Table.HeaderCell>Link</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
 
+					<Table.Body>
+					
+							{this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item}/>)}
+				
+					</Table.Body>
+				</Table>
+	
 			</div>
 		)
 	} // end render
 };
 
 export default JobList;
+
+
+		// <div>
+		// 				<Save saveQuery={this.props.saveQuery}/>
+		// 			</div>

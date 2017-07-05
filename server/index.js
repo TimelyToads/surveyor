@@ -45,7 +45,7 @@ app.post('/', (req, res, next) => {
     ip: req.headers['x-forwarded-for'],
     userAgent: req.get('user-agent')
   }
-  indeed.indeed(userReq, res, next);
+  indeed.getJobPostings(userReq, res);
 });
 
 
@@ -122,7 +122,7 @@ app.listen(app.get('port'), function() {
   console.log('listening on port', app.get('port'));
 });
 
-app.post('/', (req, res, next) => {
-  console.log('Inside POST at the end of the index.js');
-  indeed.indeed(req, res, next);
-});
+// app.post('/', (req, res, next) => {
+//   console.log('Inside POST at the end of the index.js');
+//   indeed.indeed(req, res, next);
+// });
