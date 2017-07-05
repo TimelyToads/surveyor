@@ -87,19 +87,14 @@ class App extends React.Component {
   }
 
   onDrop(files) {
-    this.setState({
-      view: 'loading',
-      activateBlur: false
-    });
+    this.setState({ view: 'loading', activateBlur: false });
     let formData = new FormData();
-    this.setState({
-      files,
-      dropzoneActive: false
-    });
+
+    this.setState({ files, dropzoneActive: false });
     formData.append('file', files[0]);
+
     fetch('/upload', {
-      method: 'POST',
-      body: formData
+      method: 'POST', body: formData
     })
     .then(response => {
       return response.json();
@@ -108,17 +103,13 @@ class App extends React.Component {
       if (result.error) {
         throw err;
       }
+
       var query = result.join(', ');
-      this.setState({
-        technology: query
-      });
+      this.setState({ technology: query });
       this.onSearch(query);
     })
     .catch(err => {
-      this.setState({
-        view: 'search',
-        errMsg: err + ''
-      });
+      this.setState({ view: 'search', errMsg: err + ''});
     })
   }
 
@@ -188,16 +179,21 @@ class App extends React.Component {
         <div style={style}>
           <Header jobs={this.state.jobs}/>
           <div> <h1 id="title"> Surveyor  &#x1F50D; </h1></div>
-            {this.state.view === 'search'
-              ? this.state.errMsg === ''
-                ? <Start errMsg=''/>
-                : <Start errMsg={this.state.errMsg}/>
-              : this.state.view === 'loading'
-              ? <Loading loadingPrevious={this.state.loadingPrevious}/>
-              : this.state.view === 'jobs'
-              ? <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
-              : null
+
+  
+        { (() => {
+            if (this.state.view === 'search') {
+              return <Start errMsg={this.state.errMsg} />
+            } else if (this.state.view === 'loading') {
+              return <Loading loadingPrevious={this.state.loadingPrevious}/>
+            } else if (this.state.view === 'jobs') {
+              return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
+            } else {
+              return null;
             }
+          })()
+        }
+            
         </div>
         <div hidden>
           <Load onLoad={this.onLoad}/>
@@ -208,3 +204,4 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
