@@ -12,7 +12,7 @@ class JobListItem extends React.Component {
 
 				<Table.Row>
 					<Table.Cell singleLine> 
-						<Label as='a' image>
+						<Label color="blue" as='a' image>
 							<Image src='images/indeed.com-logo.png' />
 							Indeed
 						</Label>
@@ -23,12 +23,11 @@ class JobListItem extends React.Component {
 					<Table.Cell>	
 						{this.props.jobListItem.jobtitle}
 					</Table.Cell>
-					<Table.Cell textAlign='right'>
+					<Table.Cell textAlign='left' width="3">
 						{this.props.jobListItem.snippet}
 					</Table.Cell>
-					<Table.Cell> 
-						{this.props.jobListItem.city}<br />
-						{this.props.jobListItem.state}
+					<Table.Cell singleLine> 
+						{this.props.jobListItem.formattedLocation}
 					</Table.Cell>
 					<Table.Cell singleLine>
 						{this.props.jobListItem.formattedRelativeTime} 

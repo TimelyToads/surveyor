@@ -1,7 +1,7 @@
 import React from 'react';
 import JobListItem from './JobListItem.jsx';
 import Save from './Save.jsx';
-import { Header, Table, Rating } from 'semantic-ui-react'
+import { Header, Table, Rating, Form } from 'semantic-ui-react'
 
 
 class JobList extends React.Component {
@@ -14,6 +14,7 @@ class JobList extends React.Component {
 
 		return (
 					<div>
+						<Form>
 			    <Table celled padded>
 					<Table.Header>
 						<Table.Row>
@@ -33,7 +34,7 @@ class JobList extends React.Component {
 				
 					</Table.Body>
 				</Table>
-	
+	</Form>
 			</div>
 		)
 	} // end render

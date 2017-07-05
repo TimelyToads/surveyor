@@ -6,26 +6,37 @@ const bodyParser = require('body-parser');
 // const indeed = process.env.INDEED;
 const API_KEYS = require('../../lib/api_keys.js')
 const indeed = API_KEYS.indeed_publisher_id;
+const locationFinder = require('../../lib/locationFinder.js');
+const defaultSearchCity = 'san francisco';
+const defaultSearchState = 'CA';
+const axios = require('axios');
+
+
+
 
 let getJobPostings = (details, res, next) => {
   console.log('inside getJobPostings with details: ', details);
-  let city = 'san francisco';
-  let state = 'CA';
 
-  details.city = 'san francisco';
-  details.state = 'CA';
 
-  ipLookup(details.ip)
-    .then((result) => {
-      console.log('iplookup result', result);
-      details.city = result.city;
-      details.state = result.subdivision;
-      indeedFetch(details, res, next); 
-
-    }).catch(error => { 
-      indeedFetch(details, res, next);
-    });
+  locationFinder.lookupLocationBasedOnIPAddress(details.ip)
+  .tap( locationInfo => {
+    //override search city and state based on ip address
+    details.city = locationInfo.city;
+    details.state = locationInfo.subdivision;
+  })
+  .error( noLocationInfo => {
+    console.log('ERROR retrieving IP Location Info', noLocationInfo)
+     indeedFetch(details, res, next); 
+  })
+  .catch( () => {
+    console.log('Inside CATCH of index.js');
+    details.city = defaultSearchCity;
+    details.state = defaultSearchState;
+    indeedFetch(details, res, next); 
+  })
 }
+
+
 
 let indeedFetch = (data, res, next) => {
   console.log('Inside indeedFetch with data: ', data);
@@ -38,9 +49,9 @@ let indeedFetch = (data, res, next) => {
     else 
       return response.json();
   }).then((rjson, error) => {
-    if (error) 
+    if (error) {
       throw error;
-    else {
+    } else {
       let newStr = JSON.stringify(rjson).replace(/<b>/g, "");
       newStr = newStr.replace(/<\/b>/g, "");
       console.log('Successfully got JSON back from indeed: ', newStr);
@@ -52,7 +63,29 @@ let indeedFetch = (data, res, next) => {
   });
 }
 
-let ipLookup = ip => {
+
+
+module.exports = {
+  getJobPostings: getJobPostings
+}
+
+/*
+http://api.indeed.com/ads/apisearch?publisher=3533723820223786&q=java&l=austin%2C+tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2
+
+
+
+  // ipLookup(details.ip)
+  //   .then((result) => {
+  //     console.log('iplookup result', result);
+  //     details.city = result.city;
+  //     details.state = result.subdivision;
+  //     indeedFetch(details, res, next); 
+
+  //   }).catch(error => { 
+  //     indeedFetch(details, res, next);
+  //   });
+
+  let ipLookup = ip => {
   return new Promise((reject, resolve) => {
       geoip2.lookupSimple(ip, (result, error) => {
         if (error) {
@@ -66,12 +99,4 @@ let ipLookup = ip => {
       });
   });
 }
-
-module.exports = {
-  getJobPostings: getJobPostings
-}
-
-/*
-http://api.indeed.com/ads/apisearch?publisher=3533723820223786&q=java&l=austin%2C+tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2
-
 */

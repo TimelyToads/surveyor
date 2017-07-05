@@ -39,7 +39,7 @@ app.set('port', (process.env.PORT || 5000));
 
 
 app.post('/', (req, res, next) => {
-  console.log('\nindex.js POST request to / \n');
+  console.log('\nindex.js POST request to /  with request: ');
   let userReq = {
     body: req.body.query,
     ip: req.headers['x-forwarded-for'],
@@ -47,6 +47,16 @@ app.post('/', (req, res, next) => {
   }
   indeed.getJobPostings(userReq, res);
 });
+
+// app.post('/', (req, res, next) => {
+//   console.log('\nindex.js POST request to / \n');
+//   let userReq = {
+//     body: req.body.query,
+//     ip: req.headers['x-forwarded-for'],
+//     userAgent: req.get('user-agent')
+//   }
+//   indeed.getJobPostings(userReq, res);
+// });
 
 
 app.post('/upload', (req, res, next) => {
