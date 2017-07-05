@@ -9,6 +9,7 @@ import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
 import Header from './components/Header.jsx';
 import Start from './components/Start.jsx'
+import { Input, Menu, Segment, Button } from 'semantic-ui-react'
 
 class App extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class App extends React.Component {
       dropzoneActive: false,
       loadingPrevious: false,
       errMsg: '',
-      activateBlur: false
+      activateBlur: false,
+      activeItem: 'home'
     };
     this.onSearch = this.onSearch.bind(this);
     this.saveQuery = this.saveQuery.bind(this);
@@ -153,7 +155,7 @@ class App extends React.Component {
   }
 
   render () {
-    const { accept, files, dropzoneActive } = this.state;
+    const { accept, files, dropzoneActive, activeItem } = this.state;
 
     var style = {};
     if (this.state.activateBlur) {
@@ -167,6 +169,28 @@ class App extends React.Component {
     }
 
     return (
+      <div>
+        <div>
+					<Menu pointing inverted>
+						<Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+						<Menu.Item name='jobs' active={activeItem === 'messages'} onClick={this.handleItemClick} />
+						<Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
+            <Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
+						<Menu.Menu position='right'>
+							 <Menu.Item>
+                <Button primary>Sign up</Button>
+              </Menu.Item>
+
+            <Menu.Item>
+              <Button>Log-in</Button>
+            </Menu.Item>
+						</Menu.Menu>
+					</Menu>
+
+					<Segment>
+						<img src='/assets/images/wireframe/paragraph.png' />
+					</Segment>
+				</div>
       <Dropzone
         disableClick
         style={{}}
@@ -199,6 +223,7 @@ class App extends React.Component {
           <Load onLoad={this.onLoad}/>
         </div>
       </Dropzone>
+       </div>
     )
   }
 }

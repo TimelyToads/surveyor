@@ -40,6 +40,7 @@
     "react-dropzone": "^3.13.3",
     "react-facebook-login": "^3.6.2",
     "request-promise": "^4.2.1",
+    "semantic-ui-react": "^0.70.0",
     "underscore": "^1.8.3",
     "watson-developer-cloud": "^2.32.1",
     "webpack": "^2.2.1"
