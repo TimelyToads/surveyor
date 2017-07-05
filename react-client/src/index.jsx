@@ -203,7 +203,7 @@ class App extends React.Component {
         <div style={style}>
           <Header jobs={this.state.jobs}/>
           <div> <h1 id="title"> Surveyor  &#x1F50D; </h1></div>
-
+        
   
         { (() => {
             if (this.state.view === 'search') {
