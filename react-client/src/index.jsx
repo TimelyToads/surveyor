@@ -8,8 +8,9 @@ import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
 import Header from './components/Header.jsx';
-import Start from './components/Start.jsx'
-import { Input, Menu, Segment, Button } from 'semantic-ui-react'
+import Start from './components/Start.jsx';
+import { Input, Menu, Segment, Button } from 'semantic-ui-react';
+import Login from './components/Authentication/Login.jsx';
 
 class App extends React.Component {
   constructor(props) {
