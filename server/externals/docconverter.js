@@ -9,30 +9,35 @@ const API_KEYS = require('../../lib/api_keys.js')
 const converterUser = API_KEYS.doc_conversion_username;
 const converterPass = API_KEYS.doc_conversion_password;
 
-let convertDoc = (doc, callback) => {
-
+let convertDoc = (request, callback) => {
+ console.log('\n Inside doconverter.js with doc: ', request.files[0].path);
 	var document_conversion = new DocumentConversionV1({
   	username:     converterUser,
   	password:     converterPass,
   	version_date: '2015-12-01'
 	});
 
+	let docConversionInputs = {
+		file: fs.createReadStream(request.files[0].path),
+	  conversion_target: document_conversion.conversion_target.ANSWER_UNITS
+	}
+
 	let form = new FormData();
 	form.append('config[conversion_target]', 'answer_units');
 
-	document_conversion.convert({
-	  // (JSON) ANSWER_UNITS, NORMALIZED_HTML, or NORMALIZED_TEXT 
-	  file: fs.createReadStream(doc.files[0].path),
-	  conversion_target: document_conversion.conversion_target.ANSWER_UNITS,
-
-	}, function (err, response) {
+	console.log('converting document with watson....');
+	document_conversion.convert(docConversionInputs,  (err, convertedDocument) => {
 	  if (err) {
+			console.log('Error converting document ', err);
 			callback(err, null);
 	  } else {
-	    callback(null, response);
+			console.log('\nSuccess. CONVERTED DOC OUTPUT: ', convertedDocument);
+	    callback(null, convertedDocument);
 	  }
 	});
 };
+
+
 module.exports = {
 	convertDoc: convertDoc
 }

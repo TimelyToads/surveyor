@@ -9,6 +9,7 @@ import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
 import Header from './components/Header.jsx';
 import Start from './components/Start.jsx'
+import { Input, Menu, Segment, Button } from 'semantic-ui-react'
 
 class App extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class App extends React.Component {
       dropzoneActive: false,
       loadingPrevious: false,
       errMsg: '',
-      activateBlur: false
+      activateBlur: false,
+      activeItem: 'home'
     };
     this.onSearch = this.onSearch.bind(this);
     this.saveQuery = this.saveQuery.bind(this);
@@ -87,19 +89,14 @@ class App extends React.Component {
   }
 
   onDrop(files) {
-    this.setState({
-      view: 'loading',
-      activateBlur: false
-    });
+    this.setState({ view: 'loading', activateBlur: false });
     let formData = new FormData();
-    this.setState({
-      files,
-      dropzoneActive: false
-    });
+
+    this.setState({ files, dropzoneActive: false });
     formData.append('file', files[0]);
+
     fetch('/upload', {
-      method: 'POST',
-      body: formData
+      method: 'POST', body: formData
     })
     .then(response => {
       return response.json();
@@ -108,17 +105,13 @@ class App extends React.Component {
       if (result.error) {
         throw err;
       }
+
       var query = result.join(', ');
-      this.setState({
-        technology: query
-      });
+      this.setState({ technology: query });
       this.onSearch(query);
     })
     .catch(err => {
-      this.setState({
-        view: 'search',
-        errMsg: err + ''
-      });
+      this.setState({ view: 'search', errMsg: err + ''});
     })
   }
 
@@ -162,7 +155,7 @@ class App extends React.Component {
   }
 
   render () {
-    const { accept, files, dropzoneActive } = this.state;
+    const { accept, files, dropzoneActive, activeItem } = this.state;
 
     var style = {};
     if (this.state.activateBlur) {
@@ -176,6 +169,28 @@ class App extends React.Component {
     }
 
     return (
+      <div>
+        <div>
+					<Menu pointing inverted>
+						<Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+						<Menu.Item name='jobs' active={activeItem === 'messages'} onClick={this.handleItemClick} />
+						<Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
+            <Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
+						<Menu.Menu position='right'>
+							 <Menu.Item>
+                <Button primary>Sign up</Button>
+              </Menu.Item>
+
+            <Menu.Item>
+              <Button>Log-in</Button>
+            </Menu.Item>
+						</Menu.Menu>
+					</Menu>
+
+					<Segment>
+						<img src='/assets/images/wireframe/paragraph.png' />
+					</Segment>
+				</div>
       <Dropzone
         disableClick
         style={{}}
@@ -188,23 +203,30 @@ class App extends React.Component {
         <div style={style}>
           <Header jobs={this.state.jobs}/>
           <div> <h1 id="title"> Surveyor  &#x1F50D; </h1></div>
-            {this.state.view === 'search'
-              ? this.state.errMsg === ''
-                ? <Start errMsg=''/>
-                : <Start errMsg={this.state.errMsg}/>
-              : this.state.view === 'loading'
-              ? <Loading loadingPrevious={this.state.loadingPrevious}/>
-              : this.state.view === 'jobs'
-              ? <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
-              : null
+        
+  
+        { (() => {
+            if (this.state.view === 'search') {
+              return <Start errMsg={this.state.errMsg} />
+            } else if (this.state.view === 'loading') {
+              return <Loading loadingPrevious={this.state.loadingPrevious}/>
+            } else if (this.state.view === 'jobs') {
+              return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
+            } else {
+              return null;
             }
+          })()
+        }
+            
         </div>
         <div hidden>
           <Load onLoad={this.onLoad}/>
         </div>
       </Dropzone>
+       </div>
     )
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+

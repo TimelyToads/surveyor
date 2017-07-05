@@ -4,16 +4,17 @@ const indeed = require('./externals/indeed.js');
 
 const multer = require('multer');
 const path = require('path');
-const upload = multer();
 const crypto = require('crypto');
 const mime = require('mime');
 
 const pgp = require('pg-promise')();
 pgp.pg.defaults.ssl = true;
 const db = pgp(process.env.DATABASE_URL);
+console.log('DB URL: ', process.env.DATABASE_URL);
 
 const docConverter = require('./externals/docconverter.js');
 const docAnalyzer = require('./externals/naturalLanguageUnderstanding.js');
+
 
 
 const app = express();
@@ -38,7 +39,7 @@ app.set('port', (process.env.PORT || 5000));
 
 
 app.post('/', (req, res, next) => {
-  console.log('index.js POST request to /');
+  console.log('\nindex.js POST request to / \n');
   let userReq = {
     body: req.body.query,
     ip: req.headers['x-forwarded-for'],
@@ -50,16 +51,19 @@ app.post('/', (req, res, next) => {
 
 app.post('/upload', (req, res, next) => {
   console.log('index.js POST request to /upload');
-  docConverter.convertDoc(req, (error, response) => {
-    if (error) {
-      res.send(error);
+
+  //Convert the document using Watson documentConversionV1
+  docConverter.convertDoc(req, (error, convertedDoc) => {
+    
+    if (convertedDoc) {
+      docAnalyzer.parseDocumentKeywords(convertedDoc, (err, keywords) => {
+        if (err) { res.send(error);}
+        res.send(keywords);
+      })
     }
-    docAnalyzer.analyze(response, (err, keywords) => {
-    if (err) {
-      res.send(error);
-    }
-    res.send(keywords);
-  })});
+    
+    if (error) { res.send(error); }
+  }); 
 });
 
 
@@ -82,6 +86,7 @@ app.post('/load', (req, res) => {
         });
     }) 
     .catch(doNotAutoLoad => {
+      console.log('Catching doNotAutoLoad');
       res.send();
     })
 
