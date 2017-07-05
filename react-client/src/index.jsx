@@ -188,38 +188,38 @@ class App extends React.Component {
 						</Menu.Menu>
 					</Menu>
 				</div>
-      <Dropzone
-        disableClick
-        style={{}}
-        accept={accept}
-        onDrop={this.onDrop.bind(this)}
-        onDragEnter={this.onDragEnter.bind(this)}
-        onDragLeave={this.onDragLeave.bind(this)}
-      >
-        { dropzoneActive && <div className="overlay">Release to Search</div> }
-        <div style={style}>
-          <Header jobs={this.state.jobs}/>
-        
-  
-        { (() => {
-            if (this.state.view === 'search') {
-              return <Start errMsg={this.state.errMsg} />
-            } else if (this.state.view === 'loading') {
-              return <Loading loadingPrevious={this.state.loadingPrevious}/>
-            } else if (this.state.view === 'jobs') {
-              return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
-            } else {
-              return null;
-            }
-          })()
-        }
-            
-        </div>
-        <div hidden>
-          <Load onLoad={this.onLoad}/>
-        </div>
-      </Dropzone>
-       </div>
+        <Dropzone
+          disableClick
+          style={{}}
+          accept={accept}
+          onDrop={this.onDrop.bind(this)}
+          onDragEnter={this.onDragEnter.bind(this)}
+          onDragLeave={this.onDragLeave.bind(this)}
+        >
+          { dropzoneActive && <div className="overlay">Release to Search</div> }
+          <div style={style}>
+            <Header jobs={this.state.jobs}/>
+          
+    
+          { (() => {
+              if (this.state.view === 'search') {
+                return <Start errMsg={this.state.errMsg} />
+              } else if (this.state.view === 'loading') {
+                return <Loading loadingPrevious={this.state.loadingPrevious}/>
+              } else if (this.state.view === 'jobs') {
+                return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
+              } else {
+                return null;
+              }
+            })()
+          }
+              
+          </div>
+          <div hidden>
+            <Load onLoad={this.onLoad}/>
+          </div>
+        </Dropzone>
+      </div>
     )
   }
 }
