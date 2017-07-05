@@ -1,7 +1,7 @@
 const indeed = require('./indeed.js');
 const fs = require('fs');
 const path = require('path');
-const API_KEYS = require('../../config.js')
+const API_KEYS = require('../../lib/api_keys.js');
 // const analyzerUser = process.env.WATSONANALYZERUSER;
 // const analyzerPass = process.env.WATSONANALYZERPASS;
 

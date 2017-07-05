@@ -14,7 +14,7 @@ class Load extends React.Component {
         </div>
         <FacebookLogin
           appId='134148277165166'
-          autoLoad={true}
+          autoLoad={false}
           fields='name, email, picture'
           callback={this.props.onLoad}
         />
