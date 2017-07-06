@@ -9,10 +9,6 @@ const mime = require('mime');
 
 const models = require('../database/models/models.js')
 const helpers = require('../database/helpers.js');
-const pgp = require('pg-promise')();
-// pgp.pg.defaults.ssl = true;
-const db = pgp(process.env.DATABASE_URL);
-console.log('DB URL: ', process.env.DATABASE_URL);
 
 const docConverter = require('./externals/docconverter.js');
 const docAnalyzer = require('./externals/naturalLanguageUnderstanding.js');
