@@ -9,6 +9,10 @@ const mime = require('mime');
 
 const models = require('../database/models/models.js')
 const helpers = require('../database/helpers.js');
+const pgp = require('pg-promise')();
+// pgp.pg.defaults.ssl = true;
+const db = pgp(process.env.DATABASE_URL);
+console.log('DB URL: ', process.env.DATABASE_URL);
 
 const docConverter = require('./externals/docconverter.js');
 const docAnalyzer = require('./externals/naturalLanguageUnderstanding.js');
@@ -85,6 +89,19 @@ app.get('/api/users/:id', (req, res) => {
     .catch( (error) => {
       console.log('\t', error.message);
       res.status(error.status).json(error);
+});
+
+app.post('/saveQuery', (req, res) => {
+  console.log('index.js POST call to /saveQuery');
+  db.query(`SELECT * FROM users WHERE facebook_id = '${req.body.id}'`)
+    .then(result => {
+      console.log('Successfully retrieved from USERS table: ', result);
+      if (result.length === 0) {
+        console.log('ID or FBID? --- ', req.body.id);
+        db.query(`INSERT INTO "public"."users"("facebook_id") VALUES(${req.body.id}) RETURNING "id", "facebook_id";`);
+        throw notInDb;
+      }
+      return result[0].id;
     })
     .error( error => {
       console.log('\tServer Error', error);
