@@ -11,7 +11,6 @@ class Start extends React.Component {
          ? <h3> There was an error analyzing your resume. Please try again.</h3>
          : null
         }
-        <h3>Drag Resume Here</h3>
       </div>
     );
   }
