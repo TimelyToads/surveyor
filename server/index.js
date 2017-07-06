@@ -79,6 +79,44 @@ app.post('/upload', (req, res, next) => {
   }); 
 });
 
+// GET AND POST GOOGLE USERS
+
+app.get('/users/:email', (req, res) => {
+  console.log('YOU IN GET MY NIGGA', req.body);
+  db.query(`SELECT * FROM users WHERE email = ${req.body.email}`)
+  .then(result => {
+    console.log('Successful GET of User', result);
+    res.send(result);
+  })
+  .catch(err => {
+    console.log('Failed to GET user from Users table', err);
+    res.send();
+  });
+})
+
+app.post('/users', (req, res) => {
+  console.log('YOU IN NIGGA', req.body)
+  db.query(`INSERT INTO users (username, first_name, last_name, img_url, email, password) VALUES (${req.body.username}, ${req.body.first_name}, ${req.body.last_name}, ${req.body.img_url}, ${req.body.email}, ${req.body.password});`)
+  .then(result => {
+    console.log('Successful POST new user to Users table', result);
+    res.send(result);
+  })
+  .catch(err => {
+    console.log('Failed to POST new user to Users table', err);
+    res.send();
+  })
+
+})
+
+// {
+//   username:     profile.getId(),
+//   first_name:   profile.getGivenName(),
+//   last_name:    profile.getFamilyName(),
+//   img_url:      profile.getImageUrl(),
+//   email:        profile.getEmail(),
+//   password:     profile.getId()
+// }
+
 
 /****************BEGIN RESTFUL API******************/
 

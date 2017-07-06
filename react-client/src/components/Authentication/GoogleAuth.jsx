@@ -2,6 +2,7 @@ import React from 'React';
 import DocMeta from 'react-doc-meta';
 import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
+import axios from 'axios';
 
 const GAPI_KEYS = API_KEYS.googleKeys;
 let GoogAuth;
@@ -31,12 +32,12 @@ class GoogleAuth extends React.Component {
     AuthHelper.isTokenValid()
     .then(res => {    
       // GET User from the DB    
-      $.get('/api/users/googleid', { params: { googleid: googleUserObject.username } })  
+      axios.get('/users/email', { params: { email: googleUserObject.email } })  
       .then(userObj => { this.props.authenticateUser(userObj.data) })
       .catch(err => { 
         // IF the User does not exist in the DB an Error will be caught, 
         // therefore just do an immediate POST with the same user data
-        $.post('/api/users', googleUserObject)
+        axios.post('/users', googleUserObject)
         .then(res => {
           console.log('Created new user in db ', googleUserObject);
           this.props.authenticateUser(googleUserObject);              
