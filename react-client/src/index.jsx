@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import JobList from './components/JobList.jsx';
-import JobListItem from './components/JobListItem.jsx';
+import AppsList from './components/AppsList.jsx';
 import Save from './components/Save.jsx';
 import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';
@@ -23,7 +23,7 @@ class App extends React.Component {
       loadingPrevious: false,
       errMsg: '',
       activateBlur: false,
-      activeItem: 'home'
+      activeItem: 'interviews'
     };
     this.onSearch = this.onSearch.bind(this);
     this.saveQuery = this.saveQuery.bind(this);
@@ -188,41 +188,43 @@ class App extends React.Component {
 						</Menu.Menu>
 					</Menu>
 				</div>
-        <Dropzone
-          disableClick
-          style={{}}
-          accept={accept}
-          onDrop={this.onDrop.bind(this)}
-          onDragEnter={this.onDragEnter.bind(this)}
-          onDragLeave={this.onDragLeave.bind(this)}
-        >
-          { dropzoneActive && <div className="overlay">Release to Search</div> }
-          <div style={style}>
-            <Header jobs={this.state.jobs}/>
-          
-    
-          { (() => {
-              if (this.state.view === 'search') {
-                return <Start errMsg={this.state.errMsg} />
-              } else if (this.state.view === 'loading') {
-                return <Loading loadingPrevious={this.state.loadingPrevious}/>
-              } else if (this.state.view === 'jobs') {
-                return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
-              } else {
-                return null;
-              }
-            })()
-          }
-              
-          </div>
-          <div hidden>
-            <Load onLoad={this.onLoad}/>
-          </div>
-        </Dropzone>
-      </div>
+        
+      <Dropzone
+        disableClick
+        style={{}}
+        accept={accept}
+        onDrop={this.onDrop.bind(this)}
+        onDragEnter={this.onDragEnter.bind(this)}
+        onDragLeave={this.onDragLeave.bind(this)}
+      >
+        { dropzoneActive && <div className="overlay">Release to Search</div> }
+        <div style={style}>
+          <Header jobs={this.state.jobs}/>
+        
+  
+        { (() => {
+            if (this.state.view === 'search') {
+              return <Start errMsg={this.state.errMsg} />
+            } else if (this.state.view === 'loading') {
+              return <Loading loadingPrevious={this.state.loadingPrevious}/>
+            } else if (this.state.view === 'jobs') {
+              return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
+            } else if (this.state.view === 'apps') {
+              return <AppsList />
+            } else {
+              return null;
+            }
+          })()
+        }
+            
+        </div>
+        <div hidden>
+          <Load onLoad={this.onLoad}/>
+        </div>
+      </Dropzone>
+       </div>
     )
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
