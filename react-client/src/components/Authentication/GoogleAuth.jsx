@@ -27,12 +27,11 @@ class GoogleAuth extends React.Component {
     let googleUserObject = AuthHelper.retrieveUserInfo(googleData);
 
     window.authToken = googleData.getAuthResponse().id_token;
-    console.log('GOOGLEUSEROBJECT', googleUserObject);
     
     AuthHelper.isTokenValid()
     .then(res => {    
       // GET User from the DB    
-      axios.get('/api/users/username', { params: { username: googleUserObject.username } })  
+      axios.get(`/api/users/${googleUserObject.username}`)  
       .then(userObj => { this.props.authenticateUser(userObj.data) })
       .catch(err => { 
         // IF the User does not exist in the DB an Error will be caught, 
