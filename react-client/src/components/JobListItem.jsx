@@ -13,7 +13,7 @@ class JobListItem extends React.Component {
 
 				<Table.Row>
 					<Table.Cell singleLine> 
-						{/* <Logo jobListItem={this.props.jobListItem} /> */}
+						 <Logo jobListItem={this.props.jobListItem} /> 
 					</Table.Cell>
 					<Table.Cell width="1" >
 						 {this.props.jobListItem.company}

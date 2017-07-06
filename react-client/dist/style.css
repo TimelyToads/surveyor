@@ -18,13 +18,32 @@
   margin: 1em;
 }
 
-.dropzone {
+  .dropzone {
   position: absolute;
   padding-top: 4em;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
+}  
+
+#landing_image {
+  background-image: url("images/landing_page.jpg");
+  height: 400px;
+  text-align: center;
+  
+}  
+
+#searchForm
+{
+    width: 100%;
+    padding: 20% 0 100px 0;
+}
+
+#upload_resume_link {
+  font-size: large;
+  color: blue;
+  display: inline;
 }
 
 .job-list {

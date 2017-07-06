@@ -7,11 +7,12 @@ import Save from './components/Save.jsx';
 import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
-import Header from './components/Header.jsx';
-import Start from './components/Start.jsx';
-import { Input, Menu, Segment, Button } from 'semantic-ui-react';
 import Login from './components/Authentication/Login.jsx';
 import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
+import Top from './components/Top.jsx';
+import Start from './components/Start.jsx'
+import Main from './components/Main.jsx'
+import { Input, Menu, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
 
 class App extends React.Component {
   constructor(props) {
@@ -213,44 +214,49 @@ class App extends React.Component {
             </Menu.Item>
 						</Menu.Menu>
 					</Menu>
+          <div id="landing_image">
+            <Form id="searchForm">           
+              <Input id="city" placeholder='City' size="large" />
+              <Input id="state" placeholder='State' size="large" />
+              <Button icon='search' size="big" color="blue" />
+              <br />
+              <br />
+              <br />
+              <div id="upload_resume_link">
+                <Icon name="upload" size="large"  />
+                Upload your resume
+              </div>
+            </Form>
+          </div>
 				</div>
-
-      <Dropzone
-        disableClick
-        style={{}}
-        accept={accept}
-        onDrop={this.onDrop.bind(this)}
-        onDragEnter={this.onDragEnter.bind(this)}
-        onDragLeave={this.onDragLeave.bind(this)}
-      >
-        { dropzoneActive && <div className="overlay">Release to Search</div> }
-        <div style={style}>
-          <Header jobs={this.state.jobs}/>
-        
-  
-        { (() => {
-            if (this.state.view === 'search') {
-              return <Start errMsg={this.state.errMsg} />
-            } else if (this.state.view === 'loading') {
-              return <Loading loadingPrevious={this.state.loadingPrevious}/>
-            } else if (this.state.view === 'jobs') {
-              return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
-            } else if (this.state.view === 'apps') {
-              return <AppsList />
-            } else {
-              return null;
-            }
-          })()
-        }
-            
-        </div>
-        <div hidden>
-          <Load onLoad={this.onLoad}/>
-        </div>
-      </Dropzone>
-       </div>
+        <Divider hidden/>
+        <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
+          { dropzoneActive && <div className="overlay">Release to Search</div> }
+          <div style={style}>
+            <Top jobs={this.state.jobs}/>
+            <Main view={this.state.view} loadingPrevious={this.state.loadingPrevious} jobs={this.state.jobs} saveQuery={this.saveQuery.bind(this)} errMsg={this.state.errMsg}/>
+          </div>
+          <div hidden>
+            <Load onLoad={this.onLoad}/>
+          </div>
+        </Dropzone>
+      </div>
     )
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+// { (() => {
+//     if (this.state.view === 'search') {
+//       return <Start errMsg={this.state.errMsg} />
+//     } else if (this.state.view === 'loading') {
+//       return <Loading loadingPrevious={this.state.loadingPrevious}/>
+//     } else if (this.state.view === 'jobs') {
+//       return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
+//     } else {
+//       return null;
+//     }
+//   })()
+// }
+
