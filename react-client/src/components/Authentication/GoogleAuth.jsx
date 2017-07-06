@@ -5,8 +5,6 @@ import AuthHelper from '../../../../lib/AuthHelper.js';
 import axios from 'axios';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
-let GoogAuth;
-
 class GoogleAuth extends React.Component {
   constructor(props) {
     super(props);
