@@ -13,7 +13,11 @@ module.exports = [
     job_site: 'Indeed.com',
     job_id: '43214432',
     company: 'Electronic Arts',
-    title: 'Contract Game Designer'
+    title: 'Contract Game Designer',
+    city: 'San Francisco',
+    state: 'CA',
+    next_action: 'Follow-up Email',
+    action_date: '2015-07-12'
   },
   {
     user: {
@@ -29,7 +33,11 @@ module.exports = [
     job_site: 'Indeed.com',
     job_id: '4789345',
     company: 'Uber, Inc.',
-    title: 'Software Engineer'
+    title: 'Software Engineer',
+    city: 'San Jose',
+    state: 'CA',
+    next_action: 'Phone Call',
+    action_date: '2015-07-11'
   },
   {
     user: {
@@ -45,7 +53,11 @@ module.exports = [
     job_site: 'Monster.com',
     job_id: '765456',
     company: 'Square Corporation',
-    title: 'Server Architect'
+    title: 'Server Architect',
+    city: 'Los Angeles',
+    state: 'CA',
+    next_action: 'Programming Test',
+    action_date: '2015-07-06'
   },
   {
     user: {
@@ -61,7 +73,11 @@ module.exports = [
     job_site: 'AngelList.com',
     job_id: '0949387',
     company: 'Twitter LLC',
-    title: 'Senior Software Engineer'
+    title: 'Senior Software Engineer',
+    city: 'New York',
+    state: 'NY',
+    next_action: 'Interview',
+    action_date: '2015-07-12'
   },
   {
     user: {
@@ -77,6 +93,10 @@ module.exports = [
     job_site: 'StackOverflowJobs.com',
     job_id: '5293746',
     company: 'Slack.com',
-    title: 'Chief Technical Officer'
+    title: 'Chief Technical Officer',
+    city: 'Austin',
+    state: 'TX',
+    next_action: 'LinkedIn Message',
+    action_date: '2015-07-05'
   }
 ];
