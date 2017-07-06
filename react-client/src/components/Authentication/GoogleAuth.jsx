@@ -59,7 +59,7 @@ class GoogleAuth extends React.Component {
     gapi.client.init({
       'apiKey': API_KEYS.g_apiKey,
       'clientId': API_KEYS.g_client_id,
-      'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly'],
+      'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/calendar'],
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
   }).then(() => {
       GoogAuth = gapi.auth2.getAuthInstance();

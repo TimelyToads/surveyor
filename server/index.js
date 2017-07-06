@@ -131,13 +131,8 @@ app.get('/api/users/:username', (req, res) => {
     .catch( (error) => {
       console.log('\t', error.message);
       res.status(error.status).json(error);
-<<<<<<< HEAD
-    });
-})
-=======
   });
 });
->>>>>>> nice
 
 app.post('/api/users', (req, res) => {
   console.log('POST /api/users');
@@ -156,11 +151,3 @@ app.post('/api/users', (req, res) => {
 app.listen(app.get('port'), function() {
   console.log('listening on port', app.get('port'));
 });
-<<<<<<< HEAD
-
-// app.post('/', (req, res, next) => {
-//   console.log('Inside POST at the end of the index.js');
-//   indeed.indeed(req, res, next);
-// })
-=======
->>>>>>> nice
