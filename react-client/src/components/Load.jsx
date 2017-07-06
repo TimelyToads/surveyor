@@ -12,12 +12,6 @@ class Load extends React.Component {
         <div>
           This is load, not login
         </div>
-        <FacebookLogin
-          appId='134148277165166'
-          autoLoad={false}
-          fields='name, email, picture'
-          callback={this.props.onLoad}
-        />
       </div>
     )
   }

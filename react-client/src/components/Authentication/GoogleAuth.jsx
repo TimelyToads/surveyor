@@ -4,7 +4,6 @@ import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
 import axios from 'axios';
 
-const GAPI_KEYS = API_KEYS.googleKeys;
 let GoogAuth;
 
 class GoogleAuth extends React.Component {
@@ -32,12 +31,12 @@ class GoogleAuth extends React.Component {
     AuthHelper.isTokenValid()
     .then(res => {    
       // GET User from the DB    
-      axios.get('/users/email', { params: { email: googleUserObject.email } })  
+      axios.get('/api/users/id', { params: { id: googleUserObject.id } })  
       .then(userObj => { this.props.authenticateUser(userObj.data) })
       .catch(err => { 
         // IF the User does not exist in the DB an Error will be caught, 
         // therefore just do an immediate POST with the same user data
-        axios.post('/users', googleUserObject)
+        axios.post('/api/users', googleUserObject)
         .then(res => {
           console.log('Created new user in db ', googleUserObject);
           this.props.authenticateUser(googleUserObject);              
@@ -58,8 +57,8 @@ class GoogleAuth extends React.Component {
 
   initClient() {
     gapi.client.init({
-      'apiKey': GAPI_KEYS.apiKey,
-      'clientId': GAPI_KEYS.client_id,
+      'apiKey': API_KEYS.g_apiKey,
+      'clientId': API_KEYS.g_client_id,
       'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly'],
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
   }).then(() => {
@@ -90,7 +89,7 @@ class GoogleAuth extends React.Component {
 
   render() {
     const tags = [
-      {name: "google-signin-client_id", content: `${GAPI_KEYS.client_id}`},
+      {name: "google-signin-client_id", content: `${API_KEYS.g_client_id}`},
       {name: "google-signin-scope", content: "profile email"}
     ]
     return (
