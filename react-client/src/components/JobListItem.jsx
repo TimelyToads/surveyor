@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Table, Rating, Image, Label } from 'semantic-ui-react'
+import { Header, Table, Rating, Image, Label, Button } from 'semantic-ui-react'
 import Logo from './Logo.jsx';
 
 class JobListItem extends React.Component {
@@ -31,8 +31,11 @@ class JobListItem extends React.Component {
 						{this.props.jobListItem.postingDate} 
 					</Table.Cell>
 					<Table.Cell>
-						<a href={this.props.jobListItem.url}>Apply</a>
+						<a href={this.props.jobListItem.url} target="_blank">Apply</a>
 					</Table.Cell>
+          <Table.Cell>
+            <Button>Save</Button>
+          </Table.Cell>
 				</Table.Row>
 		
 		)
@@ -42,23 +45,3 @@ class JobListItem extends React.Component {
 };
 
 export default JobListItem;
-			// {this.props.jobListItem.company}
-			// <div className="content">
-			// 		<div className="header">
-			// 			<a href={this.props.jobListItem.url}>
-			// 				{this.props.jobListItem.jobtitle}
-			// 			</a>
-			// 		</div>
-			// 		<div className="content">
-			// 			<div className="header">
-			// 				<b>{this.props.jobListItem.company}</b> &nbsp;&nbsp;&nbsp;&nbsp;
-			// 						<span className="meta">{this.props.jobListItem.formattedLocation} </span>
-			// 			</div>
-			// 			<div className="description">
-			// 				{this.props.jobListItem.snippet}
-			// 			</div>
-			// 			<div className="meta">
-			// 				{this.props.jobListItem.formattedRelativeTime} 
-			// 			</div>
-			// 		</div>
-			// 	</div>

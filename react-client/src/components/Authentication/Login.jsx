@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import GoogleAuth from './GoogleAuth.jsx';
 import $ from 'jquery';
 

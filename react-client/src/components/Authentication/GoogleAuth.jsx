@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import DocMeta from 'react-doc-meta';
 import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
@@ -39,7 +39,7 @@ class GoogleAuth extends React.Component {
         axios.post('/api/users', googleUserObject)
         .then(res => {
           console.log('Created new user in db ', googleUserObject);
-          this.props.authenticateUser(googleUserObject);              
+          this.props.authenticateUser(googleUserObject);
         })
         .catch(err => {
           console.log('ERROR creating user after Login', err);
@@ -60,7 +60,7 @@ class GoogleAuth extends React.Component {
       'apiKey': API_KEYS.g_apiKey,
       'clientId': API_KEYS.g_client_id,
       'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/calendar'],
-      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest','https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
   }).then(() => {
       GoogAuth = gapi.auth2.getAuthInstance();
     });

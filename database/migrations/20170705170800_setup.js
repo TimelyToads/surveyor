@@ -23,7 +23,7 @@ exports.up = function(knex, Promise) {
       table.string('language');
       table.string('source');
       table.string('snippet');
-      table.string('url');
+      table.string('url', 1024);
       table.string('onmousedown');
       table.string('jobkey');
       table.boolean('sponsored');
