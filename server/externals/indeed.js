@@ -1,4 +1,4 @@
-const bluebird = require('bluebird');
+const Promise = require('bluebird');
 const express = require('express');
 const fetch = require('isomorphic-fetch');
 const geoip2 = require('geoip2');
@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const API_KEYS = require('../../lib/api_keys.js')
 const indeed = API_KEYS.indeed_publisher_id;
 const locationFinder = require('../../lib/locationFinder.js');
+const parseHelper = require('../../lib/parseHelper.js');
 const defaultSearchCity = 'san francisco';
 const defaultSearchState = 'CA';
 const axios = require('axios');
@@ -17,51 +18,47 @@ const axios = require('axios');
 let getJobPostings = (details, res, next) => {
   console.log('inside getJobPostings with details: ', details);
 
-
   locationFinder.lookupLocationBasedOnIPAddress(details.ip)
   .tap( locationInfo => {
+    console.log('Inside TAP');
     //override search city and state based on ip address
     details.city = locationInfo.city;
     details.state = locationInfo.subdivision;
   })
-  .error( noLocationInfo => {
-    console.log('ERROR retrieving IP Location Info', noLocationInfo)
-     indeedFetch(details, res, next); 
-  })
   .catch( () => {
-    console.log('Inside CATCH of index.js');
+    console.log('Inside CATCH of getJobPostings()');
     details.city = defaultSearchCity;
     details.state = defaultSearchState;
-    indeedFetch(details, res, next); 
+    return  axios.get(`http://api.indeed.com/ads/apisearch?format=json&v=2&publisher=${indeed}&q=${details.body}&l=${details.city}%2C+${details.state}&userAgent=${details.userAgent}&limit=2&fromage=3&radius=100`);
   })
+  .then( jobPostings => {    
+    console.log('Successfully retrieved results from Indeed API Call from indeed.js ', jobPostings.data);
+    res.send(parseHelper.parseIndeedAPIData(jobPostings.data));
+  })
+  .catch( err => {
+    console.log('ERROR retrieving results from Indeed API call ', err);
+  })
+  .error( err => {
+    console.log('ERROR retrieving IP Location Info', err)
+    callIndeedJobsAPI(details, res);
+  })
+
 }
 
+// let callIndeedJobsAPI = (query, res) => {
 
 
-let indeedFetch = (data, res, next) => {
-  console.log('Inside indeedFetch with data: ', data);
+//   axios.get(`http://api.indeed.com/ads/apisearch?format=json&v=2&publisher=${indeed}&q=${query.body}&l=${query.city}%2C+${query.state}&userAgent=${query.userAgent}&limit=2&fromage=3&radius=100`)
+//   .then( jobPostings => {    
+//     console.log('Successfully retrieved results from Indeed API Call from indeed.js ', jobPostings.data);
+//     res.send(parseHelper.parseIndeedAPIData(jobPostings.data));
+//   })
+//   .catch( err => {
+//     console.log('ERROR retrieving results from Indeed API call ', err);
+//   })
+// }
 
-  fetch(`http://api.indeed.com/ads/apisearch?format=json&v=2&publisher=${indeed}&q=${data.body}&l=${data.city}%2C+${data.state}&userAgent=${data.userAgent}&limit=33&fromage=3&radius=100`, {
-    method: 'GET'
-  }).then((response, error) =>{
-    if (error) 
-      throw error;
-    else 
-      return response.json();
-  }).then((rjson, error) => {
-    if (error) {
-      throw error;
-    } else {
-      let newStr = JSON.stringify(rjson).replace(/<b>/g, "");
-      newStr = newStr.replace(/<\/b>/g, "");
-      console.log('Successfully got JSON back from indeed: ', newStr);
-      res.send(JSON.parse(newStr));
-    }
-  }).catch(error => {
-    console.log('Error fetching data from Indeed: ', error);
-    res.send(error);
-  });
-}
+
 
 
 
@@ -99,4 +96,31 @@ http://api.indeed.com/ads/apisearch?publisher=3533723820223786&q=java&l=austin%2
       });
   });
 }
+
+
+
+// let indeedFetch = (data, res, next) => {
+//   console.log('Inside indeedFetch with params passed in: ', data);
+
+//   fetch(`http://api.indeed.com/ads/apisearch?format=json&v=2&publisher=${indeed}&q=${data.body}&l=${data.city}%2C+${data.state}&userAgent=${data.userAgent}&limit=2&fromage=3&radius=100`, {
+//     method: 'GET'
+//   }).then((response, error) =>{
+//     if (error) 
+//       throw error;
+//     else 
+//       return response.json();
+//   }).then((rjson, error) => {
+//     if (error) {
+//       throw error;
+//     } else {
+//       let newStr = JSON.stringify(rjson).replace(/<b>/g, "");
+//       newStr = newStr.replace(/<\/b>/g, "");
+//       console.log('FETCH: Successfully got JSON back from indeed: ', newStr);
+//       res.send(JSON.parse(newStr));
+//     }
+//   }).catch(error => {
+//     console.log('Error fetching data from Indeed: ', error);
+//     res.send(error);
+//   });
+// }
 */
