@@ -12,10 +12,9 @@ class GoogleAuth extends React.Component {
   }
 
   componentDidMount() {
-    gapi.load('client:auth2', this.initClient);
     gapi.signin2.render('g-signin2', {
 			'scope': 'profile email',
-			'width': 90,
+			'width': 200,
 			'height': 35,
 			'longtitle': true,
 			'theme': 'dark',
@@ -24,11 +23,32 @@ class GoogleAuth extends React.Component {
 		});
   }
 
-  onSignInSuccess() {
+  onSignInSuccess(googleData) {
+    let googleUserObject = AuthHelper.retrieveUserInfo(googleData);
 
+    window.authToken = googleData.getAuthResponse().id_token;
+
+    AuthHelper.isTokenValid()
+    .then(res => {        
+      $.get('/api/users/googleid', { params: { googleid: googleUserObject.username } })  
+      .then(userObj => { this.props.authenticateUserFunc(userObj.data) })
+      .catch(err => { 
+        $.post('/api/users', googleUserObject)
+        .then(res => {
+          console.log('Created new user in db ', googleUserObject);
+          this.props.authenticateUserFunc(googleUserObject);              
+        })
+        .catch(err => {
+          console.log('ERROR creating user after Login');
+        });
+      });          
+    })
+    .catch(err => {
+      console.log('Error validating token', err);
+    });
   }
 
-  onSignInFailure() {
+  onSignInFailure(googleData) {
 
   }
 
