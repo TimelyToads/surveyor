@@ -42,7 +42,7 @@ let parseDocumentKeywords = (doc, callback) => {
     },
     'language': 'en'
   }
-  console.log('\n Passing parameters to natural language analysis: ', parameters.text);
+  console.log('\n Parameters from doc.answer_units being passed to natural language understanding: ', parameters.text);
   natural_language_understanding.analyze(parameters, function(err, result) {
     if (err) {
       console.log('Error calling natural_language_understand.analyze w/ params: ', parameters);
