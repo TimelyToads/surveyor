@@ -20,7 +20,7 @@ class App extends React.Component {
     this.state = {
       jobs: [],
       technology: '',
-      view: 'search',
+      view: 'apps',
       files: [],
       dropzoneActive: false,
       loadingPrevious: false,
