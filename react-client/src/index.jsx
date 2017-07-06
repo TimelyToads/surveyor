@@ -25,12 +25,36 @@ class App extends React.Component {
       loadingPrevious: false,
       errMsg: '',
       activateBlur: false,
-      activeItem: 'interviews'
+      activeItem: 'interviews',
+      isAuthenticated: false,
+      user: {}
     };
     this.onSearch = this.onSearch.bind(this);
     this.saveQuery = this.saveQuery.bind(this);
     this.onTechnologyChange = this.onTechnologyChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
+  }
+  
+  authenticateUser(userObj) {
+    if (userObj) {
+      this.setState({
+        isAuthenticated: true,
+        user: userObj
+      })
+    } else {
+      this.setState({
+        isAuthenticated: false,
+        user: {}
+      })
+    }
+  }
+
+  setUserObject(userObj) {
+    this.setState( {user: userObj} );
+  }
+
+  isUserAuthenticated() {
+    return this.state.isAuthenticated
   }
 
   onTechnologyChange(query) {
@@ -185,7 +209,7 @@ class App extends React.Component {
               </Menu.Item>
 
             <Menu.Item>
-              <GoogleAuth />
+              <GoogleAuth isUserAuthenticated={this.isUserAuthenticated.bind(this)} authenticateUser={this.authenticateUser.bind(this)} />
             </Menu.Item>
 						</Menu.Menu>
 					</Menu>

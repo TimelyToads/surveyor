@@ -29,14 +29,17 @@ class GoogleAuth extends React.Component {
     window.authToken = googleData.getAuthResponse().id_token;
 
     AuthHelper.isTokenValid()
-    .then(res => {        
+    .then(res => {    
+      // GET User from the DB    
       $.get('/api/users/googleid', { params: { googleid: googleUserObject.username } })  
-      .then(userObj => { this.props.authenticateUserFunc(userObj.data) })
+      .then(userObj => { this.props.authenticateUser(userObj.data) })
       .catch(err => { 
+        // IF the User does not exist in the DB an Error will be caught, 
+        // therefore just do an immediate POST with the same user data
         $.post('/api/users', googleUserObject)
         .then(res => {
           console.log('Created new user in db ', googleUserObject);
-          this.props.authenticateUserFunc(googleUserObject);              
+          this.props.authenticateUser(googleUserObject);              
         })
         .catch(err => {
           console.log('ERROR creating user after Login');
@@ -44,12 +47,12 @@ class GoogleAuth extends React.Component {
       });          
     })
     .catch(err => {
-      console.log('Error validating token', err);
+      console.log('ERROR validating token', err);
     });
   }
 
-  onSignInFailure(googleData) {
-
+  onSignInFailure(err) {
+    console.log('Failed to Sign-in to Google', err);
   }
 
   initClient() {
