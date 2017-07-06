@@ -9,10 +9,10 @@ const mime = require('mime');
 
 const models = require('../database/models/models.js')
 const helpers = require('../database/helpers.js');
-const pgp = require('pg-promise')();
+// const pgp = require('pg-promise')();
 // pgp.pg.defaults.ssl = true;
-const db = pgp(process.env.DATABASE_URL);
-console.log('DB URL: ', process.env.DATABASE_URL);
+// const db = pgp(process.env.DATABASE_URL);
+// console.log('DB URL: ', process.env.DATABASE_URL);
 
 const docConverter = require('./externals/docconverter.js');
 const docAnalyzer = require('./externals/naturalLanguageUnderstanding.js');
@@ -131,26 +131,13 @@ app.get('/api/users/:username', (req, res) => {
     .catch( (error) => {
       console.log('\t', error.message);
       res.status(error.status).json(error);
+<<<<<<< HEAD
     });
 })
-
-app.post('/saveQuery', (req, res) => {
-  console.log('index.js POST call to /saveQuery');
-  db.query(`SELECT * FROM users WHERE facebook_id = '${req.body.id}'`)
-    .then(result => {
-      console.log('Successfully retrieved from USERS table: ', result);
-      if (result.length === 0) {
-        console.log('ID or FBID? --- ', req.body.id);
-        db.query(`INSERT INTO "public"."users"("facebook_id") VALUES(${req.body.id}) RETURNING "id", "facebook_id";`);
-        throw notInDb;
-      }
-      return result[0].id;
-    })
-    .error( error => {
-      console.log('\tServer Error', error);
-      res.sendStatus(500);
-    });
-})
+=======
+  });
+});
+>>>>>>> nice
 
 app.post('/api/users', (req, res) => {
   console.log('POST /api/users');
@@ -166,62 +153,14 @@ app.post('/api/users', (req, res) => {
     });
 });
 
-// app.post('/load', (req, res) => {
-//   console.log('index.js POST request to /load');
-
-//   db.query(`SELECT * FROM users WHERE facebook_id = '${req.body.id}'`)
-//     .then(result => {
-//       console.log('Successfully retrieved users from USER table with result: ', result);
-//       if (result.length === 0) {
-//         throw doNotAutoLoad
-//       }
-//       return result[0].id;
-//     })
-//     .then(user_id => {
-//       db.query(`SELECT keywords FROM resumes WHERE user_id = '${user_id}'`)
-//         .then(result => {
-//           console.log('Successfully retrieved users from RESUME table with result: ', result);
-//           res.send(result[0].keywords);
-//         });
-//     }) 
-//     .catch(doNotAutoLoad => {
-//       console.log('Catching doNotAutoLoad');
-//       res.send();
-//     })
-
-// });
-
-// app.post('/saveQuery', (req, res) => {
-//   console.log('index.js POST call to /saveQuery');
-//   db.query(`SELECT * FROM users WHERE facebook_id = '${req.body.id}'`)
-//     .then(result => {
-//       console.log('Successfully retrieved from USERS table: ', result);
-//       if (result.length === 0) {
-//         db.query(`INSERT INTO "public"."users"("facebook_id") VALUES('${req.body.id}') RETURNING "id", "facebook_id";`);
-//         throw notInDb;
-//       }
-//       return result[0].id;
-//     })
-//     .then(user_id => {
-//       console.log('Successfully retrieved userID: ', user_id);
-//       db.query(`UPDATE "public"."resumes" SET "keywords"='${req.body.query}' WHERE "user_id"=${user_id} RETURNING "id", "user_id", "keywords";`);
-//       res.send()        
-//     })
-//     .catch(notInDb => {
-//       db.query(`SELECT id FROM users where facebook_id = '${req.body.id}'`)
-//         .then(user_id => {
-//           console.log('Successfully retrieved userID from users: ', user_id);
-//           db.query(`INSERT INTO "public"."resumes"("user_id", "keywords") VALUES(${user_id[0].id}, '${req.body.query}') RETURNING "id", "user_id", "keywords";`);
-//           res.send();
-//         });
-//     });
-// });
-
 app.listen(app.get('port'), function() {
   console.log('listening on port', app.get('port'));
 });
+<<<<<<< HEAD
 
 // app.post('/', (req, res, next) => {
 //   console.log('Inside POST at the end of the index.js');
 //   indeed.indeed(req, res, next);
 // })
+=======
+>>>>>>> nice
