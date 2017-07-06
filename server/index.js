@@ -7,15 +7,11 @@ const path = require('path');
 const crypto = require('crypto');
 const mime = require('mime');
 
-const pgp = require('pg-promise')();
-pgp.pg.defaults.ssl = true;
-const db = pgp(process.env.DATABASE_URL);
-console.log('DB URL: ', process.env.DATABASE_URL);
+const models = require('../database/models/models.js')
+const helpers = require('../database/helpers.js');
 
 const docConverter = require('./externals/docconverter.js');
 const docAnalyzer = require('./externals/naturalLanguageUnderstanding.js');
-
-
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
@@ -76,6 +72,39 @@ app.post('/upload', (req, res, next) => {
   }); 
 });
 
+
+/****************BEGIN RESTFUL API******************/
+
+app.get('/api/users/:id', (req, res) => {
+  console.log('GET /api/users');
+  helpers.getUser(req.params.id)
+    .then((user) => {
+      console.log(user);
+      res.status(200).json(user);
+    })
+    .catch( (error) => {
+      console.log('\t', error.message);
+      res.status(error.status).json(error);
+    })
+    .error( error => {
+      console.log('\tServer Error', error);
+      res.sendStatus(500);
+    });
+})
+
+app.post('/api/users', (req, res) => {
+  console.log('POST /api/users');
+  models.User.forge(req.body).save()
+    .then((user) => {
+      console.log('\tSUCCESS');
+      res.status(201).json(user);
+    })
+    .catch( (err) => {
+      const message = 'Unable to create user';
+      console.log('\t', message, err);
+      res.status(500).send({message});
+    });
+});
 
 // app.post('/load', (req, res) => {
 //   console.log('index.js POST request to /load');
