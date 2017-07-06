@@ -34,6 +34,7 @@ class App extends React.Component {
     this.saveQuery = this.saveQuery.bind(this);
     this.onTechnologyChange = this.onTechnologyChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
+    this.onSaveJob = this.onSaveJob.bind(this);
   }
   
   authenticateUser(userObj) {
@@ -179,6 +180,11 @@ class App extends React.Component {
     });
   }
 
+  onSaveJob(job) {
+    console.log(job);
+    
+  }
+
   componentDidMount(props) {
   }
 
@@ -234,7 +240,7 @@ class App extends React.Component {
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
             <Top jobs={this.state.jobs}/>
-            <Main view={this.state.view} loadingPrevious={this.state.loadingPrevious} jobs={this.state.jobs} saveQuery={this.saveQuery.bind(this)} errMsg={this.state.errMsg}/>
+            <Main view={this.state.view} loadingPrevious={this.state.loadingPrevious} jobs={this.state.jobs} saveQuery={this.saveQuery.bind(this)} errMsg={this.state.errMsg} onSaveJob={this.onSaveJob}/>
           </div>
           <div hidden>
             <Load onLoad={this.onLoad}/>

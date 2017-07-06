@@ -11,28 +11,18 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTable('jobs', function(table) {
       table.increments('id').primary();
-      table.integer('user_id')
-        .references('id')
+      table.string('username')
+        .references('username')
         .inTable('users');
-      table.dateTime('date');
-      table.string('jobtitle');
+      table.dateTime('dateApplied');
+      table.string('title');
       table.string('company');
       table.string('city');
       table.string('state');
-      table.string('country');
-      table.string('language');
-      table.string('source');
-      table.string('snippet');
+      table.string('jobSourceWebsite');
+      table.string('description');
       table.string('url', 1024);
-      table.string('onmousedown');
-      table.string('jobkey');
-      table.boolean('sponsored');
-      table.boolean('expired');
-      table.boolean('indeedApply');
       table.string('formattedLocation');
-      table.string('formattedLocationFull');
-      table.string('formattedRelativeTime');
-      table.string('stations');
     })
   ])
 };

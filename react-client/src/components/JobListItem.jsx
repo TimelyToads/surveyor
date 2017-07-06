@@ -5,9 +5,12 @@ import Logo from './Logo.jsx';
 class JobListItem extends React.Component {
 	constructor(props) {
 		super(props);
+    this.handleSaveJob = this.handleSaveJob.bind(this);
 	}
 
-
+  handleSaveJob(e) {
+    this.props.onSaveJob(this.props.jobListItem);
+  }
 	render() {
 		return (
 
@@ -34,7 +37,7 @@ class JobListItem extends React.Component {
 						<a href={this.props.jobListItem.url} target="_blank">Apply</a>
 					</Table.Cell>
           <Table.Cell>
-            <Button>Save</Button>
+            <Button onClick={this.handleSaveJob}>Save</Button>
           </Table.Cell>
 				</Table.Row>
 		

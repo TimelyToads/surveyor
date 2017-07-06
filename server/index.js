@@ -64,7 +64,6 @@ app.post('/upload', (req, res, next) => {
 
 app.get('/api/users/:username', (req, res) => {
   console.log('GET /api/users/:username');
-  console.log('GET USERNAME', req.params.username)
   helpers.getUser(req.params.username)
     .then((user) => {
       console.log(user);
@@ -90,10 +89,9 @@ app.post('/api/users', (req, res) => {
     });
 });
 
-app.post('/api/users/:id/jobs', (req, res) => {
-  console.log('POST /api/users/:id/jobs');
-  console.log(req.body);
-  req.body.user_id = req.params.id;
+app.post('/api/users/:username/jobs', (req, res) => {
+  console.log('POST /api/users/:username/jobs');
+  req.body.username = req.params.username;
   console.log(req.body);
   models.Job.forge(req.body).save()
     .then( (job) => {

@@ -10,7 +10,7 @@ let Main = (props) => {
       } else if (props.view === 'loading') {
         return <Loading loadingPrevious={props.loadingPrevious}/>
       } else if (props.view === 'jobs') {
-        return <JobList jobList={props.jobs} saveQuery={props.saveQuery}/>
+        return <JobList jobList={props.jobs} saveQuery={props.saveQuery} onSaveJob={props.onSaveJob}/>
       } else {
         return null;
       }

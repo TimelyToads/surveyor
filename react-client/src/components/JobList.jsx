@@ -29,7 +29,7 @@ class JobList extends React.Component {
 
 					<Table.Body>
 					
-							{this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item}/>)}
+							{this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item} onSaveJob={this.props.onSaveJob}/>)}
 				
 					</Table.Body>
 				</Table>
