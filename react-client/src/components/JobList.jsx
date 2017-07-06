@@ -9,7 +9,6 @@ class JobList extends React.Component {
 		super(props);
 	}
 
-
 	render() {
 
 		return (

@@ -37,6 +37,9 @@ app.use(multer({storage: storage}).any());
 app.use(express.static(__dirname + '/../react-client/dist'));
 app.set('port', (process.env.PORT || 5000));
 
+// Google Auth
+
+
 
 app.post('/', (req, res, next) => {
   console.log('\nindex.js POST request to /  with request: ');
@@ -76,12 +79,50 @@ app.post('/upload', (req, res, next) => {
   }); 
 });
 
+// GET AND POST GOOGLE USERS
+
+// app.get('/users/:email', (req, res) => {
+//   console.log('YOU IN', req.body);
+//   db.query(`SELECT * FROM users WHERE email = ${req.body.email}`)
+//   .then(result => {
+//     console.log('Successful GET of User', result);
+//     res.send(result);
+//   })
+//   .catch(err => {
+//     console.log('Failed to GET user from Users table', err);
+//     res.send();
+//   });
+// })
+
+// app.post('/users', (req, res) => {
+//   console.log('YOU IN', req.body)
+//   db.query(`INSERT INTO users (username, first_name, last_name, img_url, email, password) VALUES (${req.body.username}, ${req.body.first_name}, ${req.body.last_name}, ${req.body.img_url}, ${req.body.email}, ${req.body.password});`)
+//   .then(result => {
+//     console.log('Successful POST new user to Users table', result);
+//     res.send(result);
+//   })
+//   .catch(err => {
+//     console.log('Failed to POST new user to Users table', err);
+//     res.send();
+//   })
+
+// })
+
+// {
+//   username:     profile.getId(),
+//   first_name:   profile.getGivenName(),
+//   last_name:    profile.getFamilyName(),
+//   img_url:      profile.getImageUrl(),
+//   email:        profile.getEmail(),
+//   password:     profile.getId()
+// }
+
 
 /****************BEGIN RESTFUL API******************/
 
-app.get('/api/users/:id', (req, res) => {
+app.get('/api/users/:username', (req, res) => {
   console.log('GET /api/users');
-  helpers.getUser(req.params.id)
+  helpers.getUser(req.params.username)
     .then((user) => {
       console.log(user);
       res.status(200).json(user);
@@ -89,7 +130,8 @@ app.get('/api/users/:id', (req, res) => {
     .catch( (error) => {
       console.log('\t', error.message);
       res.status(error.status).json(error);
-});
+    });
+})
 
 app.post('/saveQuery', (req, res) => {
   console.log('index.js POST call to /saveQuery');
@@ -181,4 +223,4 @@ app.listen(app.get('port'), function() {
 // app.post('/', (req, res, next) => {
 //   console.log('Inside POST at the end of the index.js');
 //   indeed.indeed(req, res, next);
-// });
+// })

@@ -1,7 +1,7 @@
 const models = require('./models/models.js');
 
-const getUser = (id) => {
-  return models.User.forge({id}).fetch()
+const getUser = (username) => {
+  return models.User.forge({username}).fetch()
     .then( (user) => {
       if (user) {
         console.log('\tSUCCESS');

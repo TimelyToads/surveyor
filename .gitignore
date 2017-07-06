@@ -1,6 +1,5 @@
 node_modules
 react-client/dist/bundle.js
-config.js
 .DS_store
 #lib/api_keys.js
 server/temp/

@@ -8,8 +8,10 @@ import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
 import Header from './components/Header.jsx';
-import Start from './components/Start.jsx'
-import { Input, Menu, Segment, Button } from 'semantic-ui-react'
+import Start from './components/Start.jsx';
+import { Input, Menu, Segment, Button } from 'semantic-ui-react';
+import Login from './components/Authentication/Login.jsx';
+import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,12 +25,36 @@ class App extends React.Component {
       loadingPrevious: false,
       errMsg: '',
       activateBlur: false,
-      activeItem: 'interviews'
+      activeItem: 'interviews',
+      isAuthenticated: false,
+      user: {}
     };
     this.onSearch = this.onSearch.bind(this);
     this.saveQuery = this.saveQuery.bind(this);
     this.onTechnologyChange = this.onTechnologyChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
+  }
+  
+  authenticateUser(userObj) {
+    if (userObj) {
+      this.setState({
+        isAuthenticated: true,
+        user: userObj
+      })
+    } else {
+      this.setState({
+        isAuthenticated: false,
+        user: {}
+      })
+    }
+  }
+
+  setUserObject(userObj) {
+    this.setState( {user: userObj} );
+  }
+
+  isUserAuthenticated() {
+    return this.state.isAuthenticated
   }
 
   onTechnologyChange(query) {
@@ -183,7 +209,7 @@ class App extends React.Component {
               </Menu.Item>
 
             <Menu.Item>
-              <Button>Log-in</Button>
+              <GoogleAuth isUserAuthenticated={this.isUserAuthenticated.bind(this)} authenticateUser={this.authenticateUser.bind(this)} />
             </Menu.Item>
 						</Menu.Menu>
 					</Menu>
