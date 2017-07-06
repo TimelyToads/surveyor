@@ -60,7 +60,7 @@ class App extends React.Component {
           throw err;
         }
         that.setState({
-          jobs: result.results,
+          jobs: result,
           view: 'jobs',
           loadingPrevious: false
         });

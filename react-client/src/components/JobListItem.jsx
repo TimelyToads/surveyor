@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header, Table, Rating, Image, Label } from 'semantic-ui-react'
+import Logo from './Logo.jsx';
 
 class JobListItem extends React.Component {
 	constructor(props) {
@@ -12,25 +13,22 @@ class JobListItem extends React.Component {
 
 				<Table.Row>
 					<Table.Cell singleLine> 
-						<Label color="blue" as='a' image>
-							<Image src='images/indeed.com-logo.png' />
-							Indeed
-						</Label>
+						{/* <Logo jobListItem={this.props.jobListItem} /> */}
 					</Table.Cell>
 					<Table.Cell width="1" >
 						 {this.props.jobListItem.company}
 					</Table.Cell>
 					<Table.Cell>	
-						{this.props.jobListItem.jobtitle}
+						{this.props.jobListItem.title}
 					</Table.Cell>
-					<Table.Cell textAlign='left' width="3">
-						{this.props.jobListItem.snippet}
+					<Table.Cell textAlign='left' width="10">
+						{this.props.jobListItem.description}
 					</Table.Cell>
 					<Table.Cell singleLine> 
 						{this.props.jobListItem.formattedLocation}
 					</Table.Cell>
 					<Table.Cell singleLine>
-						{this.props.jobListItem.formattedRelativeTime} 
+						{this.props.jobListItem.postingDate} 
 					</Table.Cell>
 					<Table.Cell>
 						<a href={this.props.jobListItem.url}>Apply</a>

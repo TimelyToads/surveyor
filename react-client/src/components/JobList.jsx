@@ -14,14 +14,13 @@ class JobList extends React.Component {
 
 		return (
 					<div>
-						<Form>
-			    <Table celled padded>
+			    <Table celled padded inverted>
 					<Table.Header>
 						<Table.Row>
 							<Table.HeaderCell>Source</Table.HeaderCell>
 							<Table.HeaderCell width="1">Company</Table.HeaderCell>
 							<Table.HeaderCell>Job Title</Table.HeaderCell>
-							<Table.HeaderCell>Job Description</Table.HeaderCell>
+							<Table.HeaderCell width="10">Job Description</Table.HeaderCell>
 							<Table.HeaderCell>Location</Table.HeaderCell>
 							<Table.HeaderCell>Posted</Table.HeaderCell>
 							<Table.HeaderCell>Link</Table.HeaderCell>
@@ -34,7 +33,7 @@ class JobList extends React.Component {
 				
 					</Table.Body>
 				</Table>
-	</Form>
+
 			</div>
 		)
 	} // end render
