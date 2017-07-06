@@ -130,7 +130,8 @@ app.get('/api/users/:username', (req, res) => {
     .catch( (error) => {
       console.log('\t', error.message);
       res.status(error.status).json(error);
-});
+    });
+})
 
 app.post('/saveQuery', (req, res) => {
   console.log('index.js POST call to /saveQuery');
@@ -222,4 +223,4 @@ app.listen(app.get('port'), function() {
 // app.post('/', (req, res, next) => {
 //   console.log('Inside POST at the end of the index.js');
 //   indeed.indeed(req, res, next);
-// });
+// })

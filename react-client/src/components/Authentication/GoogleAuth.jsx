@@ -32,7 +32,7 @@ class GoogleAuth extends React.Component {
     AuthHelper.isTokenValid()
     .then(res => {    
       // GET User from the DB    
-      axios.get('/api/users/id', { params: { username: googleUserObject.username } })  
+      axios.get('/api/users/username', { params: { username: googleUserObject.username } })  
       .then(userObj => { this.props.authenticateUser(userObj.data) })
       .catch(err => { 
         // IF the User does not exist in the DB an Error will be caught, 
@@ -43,7 +43,7 @@ class GoogleAuth extends React.Component {
           this.props.authenticateUser(googleUserObject);              
         })
         .catch(err => {
-          console.log('ERROR creating user after Login');
+          console.log('ERROR creating user after Login', err);
         });
       });          
     })
