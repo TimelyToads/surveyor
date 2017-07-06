@@ -27,11 +27,12 @@ class GoogleAuth extends React.Component {
     let googleUserObject = AuthHelper.retrieveUserInfo(googleData);
 
     window.authToken = googleData.getAuthResponse().id_token;
-
+    console.log('GOOGLEUSEROBJECT', googleUserObject);
+    
     AuthHelper.isTokenValid()
     .then(res => {    
       // GET User from the DB    
-      axios.get('/api/users/id', { params: { id: googleUserObject.id } })  
+      axios.get('/api/users/id', { params: { username: googleUserObject.username } })  
       .then(userObj => { this.props.authenticateUser(userObj.data) })
       .catch(err => { 
         // IF the User does not exist in the DB an Error will be caught, 
@@ -65,27 +66,6 @@ class GoogleAuth extends React.Component {
       GoogAuth = gapi.auth2.getAuthInstance();
     });
   }
-
-  // signOut() {
-
-  // }
-
-  // setSigninStatus(isSignedIn) {
-  //   var user = GoogAuth.currentUser.get();
-  //   var isAuthorized = user.hasGrantedScopes(SCOPE);
-  //   if (isAuthorized) {
-  //     $('#sign-in-or-out-button').html('Sign out');
-  //     $('#revoke-access-button').css('display', 'inline-block');
-  //     $('#auth-status').html('You are currently signed in and have granted ' +
-  //         'access to this app.');
-  //   } else {
-  //     $('#sign-in-or-out-button').html('Sign In/Authorize');
-  //     $('#revoke-access-button').css('display', 'none');
-  //     $('#auth-status').html('You have not authorized this app or you are ' +
-  //         'signed out.');
-  //   }
-  // }
-
 
   render() {
     const tags = [

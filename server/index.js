@@ -120,9 +120,9 @@ app.post('/upload', (req, res, next) => {
 
 /****************BEGIN RESTFUL API******************/
 
-app.get('/api/users/:id', (req, res) => {
+app.get('/api/users/:username', (req, res) => {
   console.log('GET /api/users');
-  helpers.getUser(req.params.id)
+  helpers.getUser(req.params.username)
     .then((user) => {
       console.log(user);
       res.status(200).json(user);
