@@ -214,7 +214,7 @@ class App extends React.Component {
 						</Menu.Menu>
 					</Menu>
 				</div>
-        
+
       <Dropzone
         disableClick
         style={{}}

@@ -122,6 +122,7 @@ app.post('/upload', (req, res, next) => {
 
 app.get('/api/users/:username', (req, res) => {
   console.log('GET /api/users');
+  console.log('GET USERNAME', req.params.username)
   helpers.getUser(req.params.username)
     .then((user) => {
       console.log(user);
