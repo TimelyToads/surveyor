@@ -15,6 +15,8 @@ exports.up = function(knex, Promise) {
         .references('username')
         .inTable('users');
       table.dateTime('dateApplied');
+      table.string('postingDate');
+      table.dateTime('date');
       table.string('title');
       table.string('company');
       table.string('city');
