@@ -5,6 +5,7 @@ import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-r
 
 import JobList from './components/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
+import $ from 'jquery';
 import Save from './components/Save.jsx';
 import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';

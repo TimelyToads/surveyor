@@ -56,6 +56,7 @@ class AppsList extends React.Component {
         <Table celled selectable >
 					<Table.Header>
 						<Table.Row>
+							<Table.HeaderCell>Details</Table.HeaderCell>
 							<Table.HeaderCell>Job Title</Table.HeaderCell>
 							<Table.HeaderCell>Company</Table.HeaderCell>
 							<Table.HeaderCell>Source</Table.HeaderCell>
