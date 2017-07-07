@@ -1,38 +1,45 @@
-import React, { Component } from 'react'
-import { Button, Modal } from 'semantic-ui-react'
+import React from 'react'
+import { Button, Modal, Header, Icon } from 'semantic-ui-react'
+import GoogleAuth from './GoogleAuth.jsx';
 
-class LoginModal extends Component {
-  state = { open: false }
-
-  closeConfigShow = (closeOnEscape, closeOnRootNodeClick) => () => {
-    this.setState({ closeOnEscape, closeOnRootNodeClick, open: true })
+class LoginModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      open: true,
+      closeOnEscape: false,
+      closeOnRootNodeClick: false
+    }
   }
-
-  close = () => this.setState({ open: false })
+  
+  close () {
+    this.setState({ open: false })
+  }
 
   render() {
     const { open, closeOnEscape, closeOnRootNodeClick } = this.state
 
     return (
       <div>
-        <Button onClick={this.closeConfigShow(false, true)}>No Close on Escape</Button>
-        <Button onClick={this.closeConfigShow(true, false)}>No Close on Dimmer Click</Button>
-
         <Modal
           open={open}
           closeOnEscape={closeOnEscape}
           closeOnRootNodeClick={closeOnRootNodeClick}
           onClose={this.close}
+          basic size='small'
         >
-          <Modal.Header>
-            Delete Your Account
-          </Modal.Header>
-          <Modal.Content>
-            <p>Are you sure you want to delete your account</p>
+          <Header icon='laptop' content='Sign-in to TechHub' />
+           <Modal.Content>
+            <p>In order to upload your resume, please login or sign-up.</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button negative>No</Button>
-            <Button positive labelPosition='right' icon='checkmark' content='Yes' />
+            <Button basic color='red' inverted>
+              <Icon name='remove' /> No
+            </Button>
+            <Button color='green' inverted>
+              <Icon name='checkmark' /> Yes
+            </Button>
+              
           </Modal.Actions>
         </Modal>
       </div>

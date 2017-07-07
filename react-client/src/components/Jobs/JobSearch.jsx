@@ -7,7 +7,7 @@ let JobSearch = (props) => {
       <Form id="searchForm">           
         <Input id="city" placeholder='City' size="large" />
         <Input id="state" placeholder='State' size="large" />
-        <Button icon='search' size="big" color="blue" />
+        <Button icon='search' size="large" color="blue" />
         <br />
         <br />
         <br />

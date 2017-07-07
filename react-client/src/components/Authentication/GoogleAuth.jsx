@@ -3,12 +3,18 @@ import DocMeta from 'react-doc-meta';
 import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
 import axios from 'axios';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
 let GoogAuth;
 
 class GoogleAuth extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      open: true,
+      closeOnEscape: false,
+      closeOnRootNodeClick: false
+    }
   }
 
   componentDidMount() {
@@ -43,6 +49,7 @@ class GoogleAuth extends React.Component {
         })
         .catch(err => {
           console.log('ERROR creating user after Login', err);
+          this.props.authenticateUser(googleUserObject); 
         });
       });          
     })
@@ -71,11 +78,31 @@ class GoogleAuth extends React.Component {
       {name: "google-signin-client_id", content: `${API_KEYS.g_client_id}`},
       {name: "google-signin-scope", content: "profile email"}
     ]
+    const { open, closeOnEscape, closeOnRootNodeClick } = this.state
     return (
       <div>
-        <DocMeta tags={tags} />
-        <div id="g-signin2">  </div>
-        <hr/>
+         
+ 
+      <Modal
+          open={open}
+          closeOnEscape={closeOnEscape}
+          closeOnRootNodeClick={closeOnRootNodeClick}
+          onClose={this.close}
+          basic size='small'
+        >
+          <Header icon='laptop' content='Sign-in to TechHub' />
+           <Modal.Content>
+            <p>In order to upload your resume, please login or sign-up.</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color='green' inverted>
+              <Icon name='checkmark' /> Yes
+            </Button>
+            <DocMeta tags={tags} />
+            <div id="g-signin2"> </div> 
+          
+          </Modal.Actions>
+        </Modal>
       </div>
     )
   }

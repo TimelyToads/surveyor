@@ -23,13 +23,12 @@ class App extends React.Component {
     this.state = {
       jobs: [],
       technology: '',
-      view: 'apps',
+      view: 'login',
       files: [],
       dropzoneActive: false,
       loadingPrevious: false,
       errMsg: '',
       activateBlur: false,
-      activeItem: 'interviews',
       isAuthenticated: false,
       user: {}
     };
@@ -41,15 +40,18 @@ class App extends React.Component {
   }
   
   authenticateUser(userObj) {
+    console.log('Calling authenticateUser');
     if (userObj) {
       this.setState({
         isAuthenticated: true,
-        user: userObj
+        user: userObj,
+        view: 'start'
       })
     } else {
       this.setState({
         isAuthenticated: false,
-        user: {}
+        user: {},
+        view: 'login'
       })
     }
   }
@@ -199,7 +201,8 @@ class App extends React.Component {
   }
 
   render () {
-    const { accept, files, dropzoneActive, activeItem } = this.state;
+    const { accept, files, dropzoneActive, isAuthenticated, view } = this.state;
+    console.log('IS AUTHENTICATED: ', this.state.isAuthenticated);
 
     var style = {};
     if (this.state.activateBlur) {
@@ -214,30 +217,48 @@ class App extends React.Component {
 
     return (
       <div>
-        <div>
-					<Menu pointing inverted>
-						<Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-						<Menu.Item name='jobs' active={activeItem === 'messages'} onClick={this.handleJobsMenuClick} />
-						<Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
-            <Menu.Item name='resumes' active={activeItem === 'friends'} onClick={this.handleItemClick} />
-						<Menu.Menu position='right'>
-							 <Menu.Item>
-                <Button primary>Sign up</Button>
-              </Menu.Item>
-
-            <Menu.Item>
-              <GoogleAuth isUserAuthenticated={this.isUserAuthenticated.bind(this)} authenticateUser={this.authenticateUser.bind(this)} />
-            </Menu.Item>
-						</Menu.Menu>
-					</Menu>
+      <Menu stackable attached inverted>
+        <Menu.Item
+          name='search'
+          active={view === 'start'}
+          onClick={this.handleItemClick}
+        > Search
+        </Menu.Item>
+        <Menu.Item
+          name='jobs'
+          active={view === 'jobs'}
+          onClick={this.handleJobsMenuItemClick}
+        > Jobs
+        </Menu.Item>
+        <Menu.Item
+          name='resumes'
+          active={view === 'resumes'}
+          onClick={this.handleItemClick}
+        >Resumes
+        </Menu.Item>
+        <Menu.Item
+          name='sign-out'
+          active={view === 'sign-out'}
+          onClick={this.handleItemClick}
+        >Sign-out
+        </Menu.Item>
+      </Menu>
           <JobSearch />
-				</div>
+			
         <Divider hidden/>
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
             <Top jobs={this.state.jobs}/>
-            <Main view={this.state.view} loadingPrevious={this.state.loadingPrevious} jobs={this.state.jobs} saveQuery={this.saveQuery.bind(this)} errMsg={this.state.errMsg} onSaveJob={this.onSaveJob}/>
+            <Main 
+              view={this.state.view} 
+              loadingPrevious={this.state.loadingPrevious} 
+              jobs={this.state.jobs} 
+              saveQuery={this.saveQuery.bind(this)} 
+              errMsg={this.state.errMsg}
+              isUserAuthenticated={this.isUserAuthenticated.bind(this)} 
+              authenticateUser={this.authenticateUser.bind(this)} 
+              />
           </div>
           <div hidden>
             <Load onLoad={this.onLoad}/>
@@ -249,17 +270,4 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-// { (() => {
-//     if (this.state.view === 'search') {
-//       return <Start errMsg={this.state.errMsg} />
-//     } else if (this.state.view === 'loading') {
-//       return <Loading loadingPrevious={this.state.loadingPrevious}/>
-//     } else if (this.state.view === 'jobs') {
-//       return <JobList jobList={this.state.jobs} saveQuery={this.saveQuery}/>
-//     } else {
-//       return null;
-//     }
-//   })()
-// }
 

@@ -1,5 +1,4 @@
 #app {
-  max-width: 927px;
   height: 500px;
   margin: 0 auto;
   text-align: center;
@@ -29,9 +28,8 @@
 
 #landing_image {
   background-image: url("images/landing_page.jpg");
-  height: 400px;
+
   text-align: center;
-  
 }  
 
 #searchForm
@@ -40,6 +38,13 @@
     padding: 20% 0 100px 0;
 }
 
+#city {
+  width: 500px;
+}
+
+#state {
+
+}
 #upload_resume_link {
   font-size: large;
   color: blue;
