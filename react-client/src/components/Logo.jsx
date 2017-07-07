@@ -6,19 +6,13 @@ let Logo = (props) => {
     if (props.jobListItem.jobSourceWebsite === 'Indeed') {
       return (
       <div>
-        <Label color="blue" as='a' image>
-          <Image src='images/indeed.com-logo.png' />
-          {props.jobListItem.jobSourceWebsite}
-        </Label>
+       <Image size="tiny" src='images/indeed.com-logo.png' />
       </div>
       )
     } else if (props.jobListItem.jobSourceWebsite === 'Dice') {
       return (
       <div>
-        <Label color="red" as='a' image>
-          <Image src='images/dice_logo.jpg' />
-          {props.jobListItem.jobSourceWebsite}
-        </Label>
+         <Image size="tiny" src='images/dice_logo.jpg' />
       </div>
       )
     }
@@ -27,11 +21,12 @@ let Logo = (props) => {
 export default Logo
 
 
-  // } else if (props.jobListItem.jobSourceWebsite  === 'Dice') {
-  //   return (
-  //       <Label color="red" as='a' image>
-  //       <Image src='images/dice_logo.png' />
-  //       {this.props.jobListItem.jobSourceWebsite}
-  //     </Label>
-  //   )
-  // }
+//  <Label color="blue" as='a' image>
+//           <Image src='images/indeed.com-logo.png' />
+//           {props.jobListItem.jobSourceWebsite}
+//         </Label>
+
+    // <Label color="red" as='a' image>
+    //      
+    //       {props.jobListItem.jobSourceWebsite}
+    //     </Label>

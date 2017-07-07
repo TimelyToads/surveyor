@@ -3,14 +3,14 @@ import { Menu } from 'semantic-ui-react'
 
 let MainMenu = (props) => {
   const { view } = props;
-  
+
   return (
       <Menu stackable attached inverted>
         <Menu.Item
           name='search'
           active={view === 'start'}
           onClick={props.handleItemClick}
-        > Search
+        > Home
         </Menu.Item>
         <Menu.Item
           name='jobs'
@@ -22,7 +22,7 @@ let MainMenu = (props) => {
           name='resumes'
           active={view === 'resumes'}
           onClick={props.handleItemClick}
-        >Resumes
+        >Applications
         </Menu.Item>
         <Menu.Item
           name='sign-out'

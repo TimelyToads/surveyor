@@ -1,6 +1,6 @@
 import React from 'react';
 
-let Landing = () => {
+let LandingImage = () => {
   return (
     <div id="landing_image">
        <p id="quote">
@@ -11,4 +11,4 @@ let Landing = () => {
   );
 }
 
-export default Landing
+export default LandingImage

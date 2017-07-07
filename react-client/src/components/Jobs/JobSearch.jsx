@@ -10,12 +10,6 @@ let JobSearch = (props) => {
         <Input id="state" placeholder='State' size="large" />
         <Button icon='search' size="large" color="blue" />
         <br />
-        <br />
-        <br />
-        <div id="upload_resume_link">
-          <Icon name="upload" size="large"  />
-          Upload your resume
-        </div>
       </Form>
     </div>
   )

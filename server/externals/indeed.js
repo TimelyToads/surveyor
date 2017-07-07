@@ -4,13 +4,11 @@ const fetch = require('isomorphic-fetch');
 const geoip2 = require('geoip2');
 const bodyParser = require('body-parser');
 // const indeed = process.env.INDEED;
-const API_KEYS = require('../../lib/api_keys.js')
 const locationFinder = require('../../lib/locationFinder.js');
 const parseHelper = require('../../lib/parseHelper.js');
 const queryBuilder = require('../../lib/queryBuilder.js');
-const defaultSearchCity = 'san francisco';
-const defaultSearchState = 'CA';
 const axios = require('axios');
+
 
 
 
@@ -21,18 +19,13 @@ let getJobPostings = (details, res, next) => {
   
   locationFinder.lookupLocationBasedOnIPAddress(details.ip)
   .tap( locationInfo => {
-    console.log('Inside TAP');
     //override search city and state based on ip address
     details.city = locationInfo.city;
     details.state = locationInfo.subdivision;
   })
   .catch( () => {
     console.log('Inside CATCH of getJobPostings()');
-    details.city = defaultSearchCity;
-    details.state = defaultSearchState;
-    details.publisher_id = API_KEYS.indeed_publisher_id;
-    details.age = 3;
-    details.resultLimit = 5;
+    details = queryBuilder.setQueryDefaults(details);
     return  axios.get(queryBuilder.buildIndeedAPIQuery(details));
   })
   .then( indeedJobResults => {    
