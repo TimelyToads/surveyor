@@ -79,6 +79,7 @@ class GoogleAuth extends React.Component {
     const { open, closeOnEscape, closeOnRootNodeClick } = this.state
     return (
       <div>
+<<<<<<< HEAD
          
       <DocMeta tags={tags} />
       <Modal
@@ -104,6 +105,10 @@ class GoogleAuth extends React.Component {
             </Button>
           </Modal.Actions>
         </Modal>
+=======
+        <DocMeta tags={tags} />
+        <div id="g-signin2">  </div>
+>>>>>>> Change styling of login button. Remove background image temporarily
       </div>
     )
   }

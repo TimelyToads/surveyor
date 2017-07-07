@@ -9,13 +9,7 @@ class Save extends React.Component {
   render() {
     return(
       <div id="login">
-        <FacebookLogin
-          appId='134148277165166'
-          autoLoad={true}
-          size='small'
-          textButton='Save results with facebook'
-          callback={this.props.saveQuery}
-        /> <span className="another">or drop another resume</span>
+        <span className="another">or drop another resume</span>
       </div>
     )
   }

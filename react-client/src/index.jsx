@@ -208,10 +208,10 @@ class App extends React.Component {
     var style = {};
     if (this.state.activateBlur) {
       style = {
-        '-webkit-filter': 'blur(3px)',
-        '-moz-filter': 'blur(3px)',
-        '-o-filter': 'blur(3px)',
-        '-ms-filter': 'blur(3px)',
+        'WebkitFilter': 'blur(3px)',
+        'MozFilter': 'blur(3px)',
+        'OFilter': 'blur(3px)',
+        'msFilter': 'blur(3px)',
         'filter': 'blur(3px)'
       };
     }
