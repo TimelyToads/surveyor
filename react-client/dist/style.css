@@ -28,7 +28,7 @@
 
 #landing_image {
   background-image: url("images/landing_page.jpg");
-
+  height: 500px;
   text-align: center;
 }  
 
@@ -38,13 +38,27 @@
     padding: 20% 0 100px 0;
 }
 
-#city {
+#description {
   width: 500px;
 }
 
 #state {
-
+  width: 50px;
 }
+
+#quote {
+  word-wrap: break-word;
+  color: white;
+  font-size: 2.3em;
+  font-family: cursive;
+  padding: 18% 0 100px 0;
+}
+
+.ui.large.input {
+  margin: 0 3px 0 0;
+}
+
+
 #upload_resume_link {
   font-size: large;
   color: blue;

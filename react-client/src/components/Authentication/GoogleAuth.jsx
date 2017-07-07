@@ -20,8 +20,8 @@ class GoogleAuth extends React.Component {
   componentDidMount() {
     gapi.signin2.render('g-signin2', {
 			'scope': 'profile email',
-			'width': 200,
-			'height': 35,
+			'width': 175,
+      'height': 32,
 			'longtitle': true,
 			'theme': 'dark',
 			'onsuccess': this.onSignInSuccess.bind(this),
@@ -82,7 +82,7 @@ class GoogleAuth extends React.Component {
     return (
       <div>
          
- 
+      <DocMeta tags={tags} />
       <Modal
           open={open}
           closeOnEscape={closeOnEscape}
@@ -95,12 +95,15 @@ class GoogleAuth extends React.Component {
             <p>In order to upload your resume, please login or sign-up.</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button color='green' inverted>
-              <Icon name='checkmark' /> Yes
+         
+            
+     
+             <Button color='blue'  id="g-signin2" basic compact>
+              Sign up @TechHub
             </Button>
-            <DocMeta tags={tags} />
-            <div id="g-signin2"> </div> 
-          
+             <Button color='blue' basic size="big" id="sign_up_button">
+              Sign up @TechHub
+            </Button>
           </Modal.Actions>
         </Modal>
       </div>

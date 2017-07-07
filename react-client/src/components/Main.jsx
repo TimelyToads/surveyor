@@ -2,7 +2,6 @@ import JobList from './JobList.jsx';
 import Start from './Start.jsx'
 import Loading from './Loading.jsx';
 import React from 'react';
-import LoginModal from './Authentication/LoginModal.jsx';
 import GoogleAuth from './Authentication/GoogleAuth.jsx';
 
 let Main = (props) => {
