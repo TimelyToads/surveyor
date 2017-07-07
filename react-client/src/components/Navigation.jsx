@@ -1,6 +1,7 @@
 import JobList from './JobList.jsx';
 import DragAndDrop from './DragAndDrop.jsx'
 import DropResumeMessage from './DropResumeMessage.jsx'
+import AppsList from './AppsList.jsx'
 import Loading from './Loading.jsx';
 import React from 'react';
 import GoogleAuth from './Authentication/GoogleAuth.jsx';
@@ -18,6 +19,12 @@ let Navigation = (props) => {
             <LandingImage />
             <JobSearch />
             <DragAndDrop errMsg={props.errMsg} />
+          </div>
+        )
+      } else if (props.view === 'apps') {
+        return (
+          <div>
+            <AppList />
           </div>
         )
       } else if (props.view === 'loading') {
