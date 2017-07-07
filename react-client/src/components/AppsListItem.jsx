@@ -8,7 +8,7 @@ class AppsListItem extends React.Component {
     super(props);
 
     this.handleClick = () => {
-      this.props.handleClick(this.props.app.job_id);
+      this.props.handleClick(this.props.app.id);
     }
   }
 
@@ -19,9 +19,9 @@ class AppsListItem extends React.Component {
 
       <Table.Row textAlign='center' onClick={this.handleClick} >
 
-        <Table.Cell>	
+        {/*<Table.Cell>	
           <AppActionsDashboard app={this.props.app} />
-        </Table.Cell>
+        </Table.Cell>*/}
         <Table.Cell>	
           {this.props.app.title}
         </Table.Cell>
@@ -31,20 +31,20 @@ class AppsListItem extends React.Component {
         <Table.Cell> 
           <Label as='a' image>
             <Image src='images/indeed.com-logo.png' />
-            {this.props.app.job_site}
+            {this.props.app.jobSourceWebsite}
           </Label>
         </Table.Cell>
         <Table.Cell>
-          {this.props.app.city}, {this.props.app.state}
-        </Table.Cell>
-        <Table.Cell singleLine >
-          {this.props.app.date_applied} 
+          {this.props.app.formattedLocation}
         </Table.Cell>
         <Table.Cell>
-          {this.props.app.next_action}
+          {this.props.app.dateApplied} 
         </Table.Cell>
-        <Table.Cell singleLine >
-          {this.props.app.action_date}
+        <Table.Cell>
+          {this.props.app.city}
+        </Table.Cell>
+        <Table.Cell>
+          {this.props.app.state}
         </Table.Cell>
         
       </Table.Row>

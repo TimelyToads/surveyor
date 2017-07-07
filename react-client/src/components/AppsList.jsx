@@ -2,8 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import AppsListItem from './AppsListItem.jsx';
 // import Save from './Save.jsx';
-import { Header, Table, Rating } from 'semantic-ui-react'
+import { Header, Table } from 'semantic-ui-react'
 import data from '../../../database/mockData.js'
+import axios from 'axios'
 
 class AppsList extends React.Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ class AppsList extends React.Component {
     this.state = {
       // column: null,
       // direction: null,
-      data: data,
+      apps: data,
       activeJob: ''
     };
     this.handleClick = this.handleClick.bind(this);
@@ -36,10 +37,15 @@ class AppsList extends React.Component {
 	// }
 
   componentDidMount() {
-    console.log('EVENTUALLY fetch something from the DB:', data);
-    // this.setState({
-    //   activeJob: data[2].job_id
-    // });
+    axios.get(`/api/users/${this.props.user.username}/jobs`)
+    .then(apps => {
+      this.setState({
+        apps: apps
+      })
+    })
+    .catch(err => {
+      console.log('ERROR fetching job applications from DB: ', err);
+    });
   }
 
   handleClick(id) {
@@ -69,7 +75,7 @@ class AppsList extends React.Component {
 
 					<Table.Body>
 
-            {this.state.data.map( (app, index) => <AppsListItem 
+            {this.state.apps.map( (app, index) => <AppsListItem 
               handleClick={this.handleClick}
               activeJob={this.state.activeJob === app.job_id} 
               key={index} 
