@@ -1,6 +1,7 @@
 import React from 'react';
 import AppActionsDashboard from './AppActionsDashboard.jsx'
 import { Header, Table, Rating, Image, Label } from 'semantic-ui-react'
+import Logo from './Logo.jsx';
 
 class AppsListItem extends React.Component {
 
@@ -22,17 +23,19 @@ class AppsListItem extends React.Component {
         {/*<Table.Cell>	
           <AppActionsDashboard app={this.props.app} />
         </Table.Cell>*/}
-        <Table.Cell>	
-          {this.props.app.title}
+        <Table.Cell>
+          {/* CHANGE THIS TO NEXT ACTION DUE DATE!!! */}
+          {this.props.app.city}
+        </Table.Cell>
+        <Table.Cell>
+          {/* CHANGE THIS TO NEXT ACTION!!! */}
+          {this.props.app.state}
         </Table.Cell>
         <Table.Cell>
           {this.props.app.company}
         </Table.Cell>
-        <Table.Cell> 
-          <Label as='a' image>
-            <Image src='images/indeed.com-logo.png' />
-            {this.props.app.jobSourceWebsite}
-          </Label>
+        <Table.Cell>	
+          {this.props.app.title}
         </Table.Cell>
         <Table.Cell>
           {this.props.app.formattedLocation}
@@ -40,11 +43,8 @@ class AppsListItem extends React.Component {
         <Table.Cell>
           {this.props.app.dateApplied} 
         </Table.Cell>
-        <Table.Cell>
-          {this.props.app.city}
-        </Table.Cell>
-        <Table.Cell>
-          {this.props.app.state}
+        <Table.Cell singleLine > 
+          <Logo size='mini' jobListItem={this.props.app} />
         </Table.Cell>
         
       </Table.Row>
