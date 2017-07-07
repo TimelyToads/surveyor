@@ -105,6 +105,20 @@ app.post('/api/users/:username/jobs', (req, res) => {
     });
 })
 
+app.get('/api/users/:username/jobs', (req, res) => {
+  console.log('GET /api/users/:username/jobs');
+  models.Job.forge().query('where', 'username', '=', req.params.username).fetchAll()
+    .then( jobs => {
+      console.log(jobs.toJSON());
+      res.status(200).json(jobs);
+    })
+    .catch( error => {
+      const message = 'Cannot get user jobs';
+      console.log('\t', message, error);
+      res.status(500).send({message});
+    })
+})
+
 app.listen(app.get('port'), function() {
   console.log('listening on port', app.get('port'));
 });
