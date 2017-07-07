@@ -90,7 +90,7 @@ class GoogleAuth extends React.Component {
           onClose={this.close}
           basic size='small'
         >
-          <Header icon='laptop' content='Sign-in to TechHub' />
+          <Header icon='laptop' content='Sign-in to @Jobs' />
            <Modal.Content>
             <p>In order to upload your resume, please login or sign-up.</p>
           </Modal.Content>
@@ -99,10 +99,10 @@ class GoogleAuth extends React.Component {
             
      
              <Button color='blue'  id="g-signin2" basic compact>
-              Sign up @TechHub
+              Sign up @Jobs
             </Button>
              <Button color='blue' basic size="big" id="sign_up_button">
-              Sign up @TechHub
+              Sign up @Jobs
             </Button>
           </Modal.Actions>
         </Modal>
