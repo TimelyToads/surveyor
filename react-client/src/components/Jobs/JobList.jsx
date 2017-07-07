@@ -1,6 +1,5 @@
 import React from 'react';
 import JobListItem from './JobListItem.jsx';
-import Save from './Save.jsx';
 import { Header, Table, Rating, Segment } from 'semantic-ui-react'
 
 

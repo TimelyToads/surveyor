@@ -1,4 +1,4 @@
-import JobList from './JobList.jsx';
+import JobList from './Jobs/JobList.jsx';
 import DragAndDrop from './DragAndDrop.jsx'
 import DropResumeMessage from './DropResumeMessage.jsx'
 import Loading from './Loading.jsx';

@@ -46,6 +46,7 @@ let parseDocumentKeywords = (doc, callback) => {
   natural_language_understanding.analyze(parameters, function(err, result) {
  
      if (result) {
+       console.log('RESULT in natural language processing: ', result);
       let keywords = result.keywords.map((keyword) => {
         return keyword.text;
       });

@@ -34,7 +34,8 @@ let getJobPostings = (details, res, next) => {
     allJobResults = indeedJobs;
     return details;
   })
-  .then(callDiceJobsAPI)
+  .then(queryBuilder.buildDiceAPIQuery)
+  .then(axios.get)
   .then(parseHelper.parseDiceAPIData)
   .then( diceJobs => {
     console.log('DICE JOBS after Parsing: ', diceJobs);
