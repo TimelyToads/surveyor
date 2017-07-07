@@ -35,8 +35,15 @@
 #searchForm
 {
     width: 100%;
-    padding: 14% 0 100px 0;
+    padding: 5% 0 0 0;
 }
+
+ #upload_resume_link {
+  font-size: large;
+  color: blue;
+  width: 100%;
+  margin: 5% 5% 0 13% ;
+}  
 
 #description {
   width: 500px;
@@ -59,12 +66,6 @@
   margin: 0 3px 0 0;
 }
 
-
-#upload_resume_link {
-  font-size: large;
-  color: blue;
-  display: inline;
-}
 
 .job-list {
   max-width: 920px;

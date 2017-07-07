@@ -12,10 +12,9 @@ import Dropzone from 'react-dropzone';
 import Login from './components/Authentication/Login.jsx';
 import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
 import Top from './components/Top.jsx';
-import Start from './components/Start.jsx'
 import Navigation from './components/Navigation.jsx'
 import MainMenu from './components/MainMenu.jsx'
-import Landing from './components/Landing.jsx';
+import LandingImage from './components/LandingImage.jsx';
 import JobSearch from './components/Jobs/JobSearch.jsx';
 
 
@@ -220,11 +219,7 @@ class App extends React.Component {
     return (
       <div>
 
-        <MainMenu view={this.state.view}/>
-        <Landing />
-            <JobSearch />
-			
-        <Divider hidden/>
+        <MainMenu view={this.state.view}/>      
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
