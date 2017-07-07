@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
+import axios from 'axios';
+import { Input, Menu, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
+
 import JobList from './components/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
 import Save from './components/Save.jsx';
@@ -12,7 +14,6 @@ import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
 import Top from './components/Top.jsx';
 import Start from './components/Start.jsx'
 import Main from './components/Main.jsx'
-import { Input, Menu, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
 
 class App extends React.Component {
   constructor(props) {
@@ -182,7 +183,14 @@ class App extends React.Component {
 
   onSaveJob(job) {
     console.log(job);
-    
+    console.log(this.state.user);
+    axios.post(`/api/users/${this.state.user.username}/jobs`, job)
+      .then( status => {
+        console.log(status);
+      })
+      .catch(error => {
+        console.log('you fucked up');
+      })
   }
 
   componentDidMount(props) {
