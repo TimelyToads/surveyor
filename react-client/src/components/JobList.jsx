@@ -23,12 +23,13 @@ class JobList extends React.Component {
 							<Table.HeaderCell>Location</Table.HeaderCell>
 							<Table.HeaderCell>Posted</Table.HeaderCell>
 							<Table.HeaderCell>Link</Table.HeaderCell>
+              <Table.HeaderCell>Save</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 
 					<Table.Body>
 					
-							{this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item}/>)}
+							{this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item} onSaveJob={this.props.onSaveJob}/>)}
 				
 					</Table.Body>
 				</Table>

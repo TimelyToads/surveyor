@@ -1,5 +1,5 @@
 class Job {
-  constructor (title, company, city, state, description, url, postingDate, formattedLocation, sourceWebsite ) {
+  constructor (title, company, city, state, description, url, postingDate, date,formattedLocation, sourceWebsite ) {
     this.title = title;
     this.company = company;
     this.city = city;
@@ -7,6 +7,7 @@ class Job {
     this.description = description;
     this.url = url; 
     this.postingDate = postingDate;
+    this.date = date;
     this.formattedLocation = formattedLocation;
     this.jobSourceWebsite = sourceWebsite;
   }

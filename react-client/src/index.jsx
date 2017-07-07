@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
+import axios from 'axios';
+import { Input, Menu, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
+
 import JobList from './components/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
 import Save from './components/Save.jsx';
@@ -13,7 +15,7 @@ import Top from './components/Top.jsx';
 import Start from './components/Start.jsx'
 import Main from './components/Main.jsx'
 import JobSearch from './components/Jobs/JobSearch.jsx';
-import { Input, Menu, Button, Header, Image, Divider } from 'semantic-ui-react'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -35,6 +37,7 @@ class App extends React.Component {
     this.saveQuery = this.saveQuery.bind(this);
     this.onTechnologyChange = this.onTechnologyChange.bind(this);
     this.onLoad = this.onLoad.bind(this);
+    this.onSaveJob = this.onSaveJob.bind(this);
   }
   
   authenticateUser(userObj) {
@@ -180,6 +183,18 @@ class App extends React.Component {
     });
   }
 
+  onSaveJob(job) {
+    console.log(job);
+    console.log(this.state.user);
+    axios.post(`/api/users/${this.state.user.username}/jobs`, job)
+      .then( status => {
+        console.log(status);
+      })
+      .catch(error => {
+        console.log('you fucked up');
+      })
+  }
+
   componentDidMount(props) {
   }
 
@@ -222,7 +237,7 @@ class App extends React.Component {
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
             <Top jobs={this.state.jobs}/>
-            <Main view={this.state.view} loadingPrevious={this.state.loadingPrevious} jobs={this.state.jobs} saveQuery={this.saveQuery.bind(this)} errMsg={this.state.errMsg}/>
+            <Main view={this.state.view} loadingPrevious={this.state.loadingPrevious} jobs={this.state.jobs} saveQuery={this.saveQuery.bind(this)} errMsg={this.state.errMsg} onSaveJob={this.onSaveJob}/>
           </div>
           <div hidden>
             <Load onLoad={this.onLoad}/>
