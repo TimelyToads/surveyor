@@ -203,7 +203,6 @@ class App extends React.Component {
 
   render () {
     const { accept, files, dropzoneActive, isAuthenticated, view } = this.state;
-    console.log('IS AUTHENTICATED: ', this.state.isAuthenticated);
 
     var style = {};
     if (this.state.activateBlur) {

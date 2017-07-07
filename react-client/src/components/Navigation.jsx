@@ -1,10 +1,12 @@
 import JobList from './JobList.jsx';
-import DropResume from './DropResume.jsx'
+import DragAndDrop from './DragAndDrop.jsx'
+import DropResumeMessage from './DropResumeMessage.jsx'
 import Loading from './Loading.jsx';
 import React from 'react';
 import GoogleAuth from './Authentication/GoogleAuth.jsx';
 import LandingImage from './LandingImage.jsx';
 import JobSearch from './Jobs/JobSearch.jsx';
+import { Divider } from 'semantic-ui-react'
 
 let Navigation = (props) => {
       if (props.view === 'login') {
@@ -14,7 +16,7 @@ let Navigation = (props) => {
           <div>
             <LandingImage />
             <JobSearch />
-            <DropResume errMsg={props.errMsg} />
+            <DragAndDrop errMsg={props.errMsg} />
           </div>
         )
       } else if (props.view === 'loading') {
@@ -22,7 +24,9 @@ let Navigation = (props) => {
       } else if (props.view === 'jobs') {
         return (
             <div>
-              <JobSearch />
+              <Divider hidden />
+               <Divider hidden />
+               <DropResumeMessage />
               <JobList jobList={props.jobs} saveQuery={props.saveQuery} onSaveJob={props.onSaveJob}/>
             </div>
         )
