@@ -1,5 +1,4 @@
 #app {
-  max-width: 927px;
   height: 500px;
   margin: 0 auto;
   text-align: center;
@@ -29,16 +28,37 @@
 
 #landing_image {
   background-image: url("images/landing_page.jpg");
-  height: 400px;
+  height: 500px;
   text-align: center;
-  
 }  
 
 #searchForm
 {
     width: 100%;
-    padding: 20% 0 100px 0;
+    padding: 14% 0 100px 0;
 }
+
+#description {
+  width: 500px;
+}
+
+#state {
+  width: 50px;
+}
+
+#quote {
+  word-wrap: break-word;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-size: 2.3em;
+  font-family: cursive;
+  padding: 23% 0 100px 0;
+}
+
+.ui.large.input {
+  margin: 0 3px 0 0;
+}
+
 
 #upload_resume_link {
   font-size: large;

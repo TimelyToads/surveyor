@@ -2,11 +2,18 @@ import JobList from './JobList.jsx';
 import Start from './Start.jsx'
 import Loading from './Loading.jsx';
 import React from 'react';
+import GoogleAuth from './Authentication/GoogleAuth.jsx';
 
-let Main = (props) => {
-          
-      if (props.view === 'search') {
-        return <Start errMsg={props.errMsg} />
+let Navigation = (props) => {
+      if (props.view === 'login') {
+        return <GoogleAuth isUserAuthenticated={props.isUserAuthenticated} authenticateUser={props.authenticateUser} />
+      } else if (props.view === 'start') {
+        return (
+          <div>
+            <Start errMsg={props.errMsg} />
+           
+          </div>
+        )
       } else if (props.view === 'loading') {
         return <Loading loadingPrevious={props.loadingPrevious}/>
       } else if (props.view === 'jobs') {
@@ -17,4 +24,5 @@ let Main = (props) => {
           
 }
 
-export default Main;
+export default Navigation;
+

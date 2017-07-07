@@ -3,19 +3,25 @@ import DocMeta from 'react-doc-meta';
 import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
 import axios from 'axios';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
 let GoogAuth;
 
 class GoogleAuth extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      open: true,
+      closeOnEscape: false,
+      closeOnRootNodeClick: false
+    }
   }
 
   componentDidMount() {
     gapi.signin2.render('g-signin2', {
 			'scope': 'profile email',
-			'width': 200,
-			'height': 35,
+			'width': 175,
+      'height': 32,
 			'longtitle': true,
 			'theme': 'dark',
 			'onsuccess': this.onSignInSuccess.bind(this),
@@ -43,6 +49,7 @@ class GoogleAuth extends React.Component {
         })
         .catch(err => {
           console.log('ERROR creating user after Login', err);
+          this.props.authenticateUser(googleUserObject); 
         });
       });          
     })
@@ -71,11 +78,34 @@ class GoogleAuth extends React.Component {
       {name: "google-signin-client_id", content: `${API_KEYS.g_client_id}`},
       {name: "google-signin-scope", content: "profile email"}
     ]
+    const { open, closeOnEscape, closeOnRootNodeClick } = this.state
     return (
       <div>
-        <DocMeta tags={tags} />
-        <div id="g-signin2">  </div>
-        <hr/>
+         
+      <DocMeta tags={tags} />
+      <Modal
+          open={open}
+          closeOnEscape={closeOnEscape}
+          closeOnRootNodeClick={closeOnRootNodeClick}
+          onClose={this.close}
+          basic size='small'
+        >
+          <Header icon='laptop' content='Sign-in to @Jobs' />
+           <Modal.Content>
+            <p>In order to upload your resume, please login or sign-up.</p>
+          </Modal.Content>
+          <Modal.Actions>
+         
+            
+     
+             <Button color='blue'  id="g-signin2" basic compact>
+              Sign up @Jobs
+            </Button>
+             <Button color='blue' basic size="big" id="sign_up_button">
+              Sign up @Jobs
+            </Button>
+          </Modal.Actions>
+        </Modal>
       </div>
     )
   }
