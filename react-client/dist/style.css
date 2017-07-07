@@ -13,6 +13,10 @@
   bottom: 0;
 }
 
+#g-signin2 {
+  margin:0;
+}
+
 #login {
   margin: 1em;
 }
@@ -27,8 +31,8 @@
 }  
 
 #landing_image {
-  background-image: url("images/landing_page.jpg");
   height: 500px;
+  background-image: url("./images/landing_page.jpg");
   text-align: center;
 }  
 

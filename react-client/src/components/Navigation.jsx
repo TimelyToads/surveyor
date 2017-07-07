@@ -6,7 +6,8 @@ import React from 'react';
 import GoogleAuth from './Authentication/GoogleAuth.jsx';
 import LandingImage from './LandingImage.jsx';
 import JobSearch from './Jobs/JobSearch.jsx';
-import { Divider } from 'semantic-ui-react'
+import { Divider } from 'semantic-ui-react';
+import AppsList from './AppsList.jsx';
 
 let Navigation = (props) => {
       if (props.view === 'login') {
@@ -30,10 +31,14 @@ let Navigation = (props) => {
               <JobList jobList={props.jobs} saveQuery={props.saveQuery} onSaveJob={props.onSaveJob}/>
             </div>
         )
-      } else {
+      } else if (props.view === 'apps') {
+        return (
+          <AppsList />
+        );
+      }else {
         return null;
       }
-          
+      
 }
 
 export default Navigation;

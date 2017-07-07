@@ -195,9 +195,15 @@ class App extends React.Component {
         console.log(status);
       })
       .catch(error => {
-        console.log('you fucked up');
+        console.log('Error in OnSaveJob', error);
       })
   }
+
+  handleItemClick (e) {
+    console.log('this is the motha fuckin name', e);
+    this.setState({ view: e });
+  }
+
 
   componentDidMount(props) {
   }
@@ -208,10 +214,10 @@ class App extends React.Component {
     var style = {};
     if (this.state.activateBlur) {
       style = {
-        '-webkit-filter': 'blur(3px)',
-        '-moz-filter': 'blur(3px)',
-        '-o-filter': 'blur(3px)',
-        '-ms-filter': 'blur(3px)',
+        'WebkitFilter': 'blur(3px)',
+        'MozFilter': 'blur(3px)',
+        'OFilter': 'blur(3px)',
+        'msFilter': 'blur(3px)',
         'filter': 'blur(3px)'
       };
     }
@@ -219,7 +225,7 @@ class App extends React.Component {
     return (
       <div>
 
-        <MainMenu view={this.state.view}/>      
+        <MainMenu view={this.state.view} handleItemClick={this.handleItemClick.bind(this)}/>      
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
