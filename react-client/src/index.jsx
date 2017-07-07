@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
-
-import JobList from './components/JobList.jsx';
+import JobList from './components/Jobs/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
 import $ from 'jquery';
 import Save from './components/Save.jsx';

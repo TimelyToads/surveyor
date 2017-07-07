@@ -1,5 +1,5 @@
 import React from 'react';
-import JobList from './JobList.jsx';
+import JobList from './Jobs/JobList.jsx';
 import DragAndDrop from './DragAndDrop.jsx'
 import DropResumeMessage from './DropResumeMessage.jsx'
 import AppsList from './AppsList.jsx'
