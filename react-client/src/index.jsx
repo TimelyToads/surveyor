@@ -12,7 +12,8 @@ import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
 import Top from './components/Top.jsx';
 import Start from './components/Start.jsx'
 import Main from './components/Main.jsx'
-import { Input, Menu, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
+import JobSearch from './components/Jobs/JobSearch.jsx';
+import { Input, Menu, Button, Header, Image, Divider } from 'semantic-ui-react'
 
 class App extends React.Component {
   constructor(props) {
@@ -201,7 +202,7 @@ class App extends React.Component {
         <div>
 					<Menu pointing inverted>
 						<Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-						<Menu.Item name='jobs' active={activeItem === 'messages'} onClick={this.handleItemClick} />
+						<Menu.Item name='jobs' active={activeItem === 'messages'} onClick={this.handleJobsMenuClick} />
 						<Menu.Item name='interviews' active={activeItem === 'friends'} onClick={this.handleItemClick} />
             <Menu.Item name='resumes' active={activeItem === 'friends'} onClick={this.handleItemClick} />
 						<Menu.Menu position='right'>
@@ -214,20 +215,7 @@ class App extends React.Component {
             </Menu.Item>
 						</Menu.Menu>
 					</Menu>
-          <div id="landing_image">
-            <Form id="searchForm">           
-              <Input id="city" placeholder='City' size="large" />
-              <Input id="state" placeholder='State' size="large" />
-              <Button icon='search' size="big" color="blue" />
-              <br />
-              <br />
-              <br />
-              <div id="upload_resume_link">
-                <Icon name="upload" size="large"  />
-                Upload your resume
-              </div>
-            </Form>
-          </div>
+          <JobSearch />
 				</div>
         <Divider hidden/>
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >

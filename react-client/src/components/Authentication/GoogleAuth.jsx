@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import DocMeta from 'react-doc-meta';
 import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
