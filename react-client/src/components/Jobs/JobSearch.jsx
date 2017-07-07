@@ -3,11 +3,7 @@ import { Form, Input, Button, Icon, Divider} from 'semantic-ui-react'
 
 let JobSearch = (props) => {
   return (
-    <div id="landing_image">
-       <p id="quote">
-          "Your work is going to fill a large part of your life,<br/>
-          and the only way to be truly satisfied is to do what you believe is great work"
-        </p>
+    <div>
       <Form id="searchForm">
         <Input id="description" placeholder='Job Title, Keywords, or Company' size="large" />         
         <Input id="city" placeholder='City' size="large" />

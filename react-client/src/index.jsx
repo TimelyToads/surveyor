@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Input, Menu, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
+import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
 
 import JobList from './components/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
@@ -13,7 +13,9 @@ import Login from './components/Authentication/Login.jsx';
 import GoogleAuth from './components/Authentication/GoogleAuth.jsx';
 import Top from './components/Top.jsx';
 import Start from './components/Start.jsx'
-import Main from './components/Main.jsx'
+import Navigation from './components/Navigation.jsx'
+import MainMenu from './components/MainMenu.jsx'
+import Landing from './components/Landing.jsx';
 import JobSearch from './components/Jobs/JobSearch.jsx';
 
 
@@ -217,40 +219,17 @@ class App extends React.Component {
 
     return (
       <div>
-      <Menu stackable attached inverted>
-        <Menu.Item
-          name='search'
-          active={view === 'start'}
-          onClick={this.handleItemClick}
-        > Search
-        </Menu.Item>
-        <Menu.Item
-          name='jobs'
-          active={view === 'jobs'}
-          onClick={this.handleJobsMenuItemClick}
-        > Jobs
-        </Menu.Item>
-        <Menu.Item
-          name='resumes'
-          active={view === 'resumes'}
-          onClick={this.handleItemClick}
-        >Resumes
-        </Menu.Item>
-        <Menu.Item
-          name='sign-out'
-          active={view === 'sign-out'}
-          onClick={this.handleItemClick}
-        >Sign-out
-        </Menu.Item>
-      </Menu>
-          <JobSearch />
+
+        <MainMenu view={this.state.view}/>
+        <Landing />
+            <JobSearch />
 			
         <Divider hidden/>
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
             <Top jobs={this.state.jobs}/>
-            <Main 
+            <Navigation 
               view={this.state.view} 
               loadingPrevious={this.state.loadingPrevious} 
               jobs={this.state.jobs} 
