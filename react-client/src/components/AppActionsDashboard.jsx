@@ -16,30 +16,45 @@ class AppActionsDashboard extends React.Component {
     };
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
 
-    var appActionsList = this.state.actions.map( (action, i) => <AppActionsListItem action={action} key={i} /> );
+    var appActionsList = this.state.actions.map( action => <AppActionsListItem action={action} key={action.id} /> );
 
     return (
 
       <Modal trigger={<Button size='mini' >View</Button>}>
         <Modal.Header>
-          Profile Picture
+          <Header textAlign='center' color='blue' as='h2' >
+            {this.props.app.title} @ {this.props.app.company}
+          </Header>
         </Modal.Header>
         <Modal.Content image>
           <Modal.Description>
             <Header>Job-Seeking Actions</Header>
-              <Segment.Group>
+              <Segment.Group raised >
+                <Segment.Group horizontal raised >
+                  <Segment inverted color='blue' textAlign='center' size='large' >Due Date</Segment>
+                  <Segment inverted color='blue' textAlign='center' size='large' >Finished</Segment>
+                  <Segment inverted color='blue' textAlign='center' size='large' >Action</Segment>
+                  <Segment inverted color='blue' textAlign='center' size='large' >Contact Info</Segment>
+                </Segment.Group>
                 {appActionsList}
               </Segment.Group>
-              <Segment>
-                <AppActionForm />
-              </Segment>
+              <Segment.Group raised >
+                <Segment>
+                  <AppActionForm />
+                </Segment>
+              </Segment.Group>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button primary>
-            Proceed <Icon name='right chevron' />
+          <Button color='grey' >
+            <Icon name='right chevron' />
+            {/* TODO: THIS BUTTON CLOSES THE MODAL */}
           </Button>
         </Modal.Actions>
       </Modal>

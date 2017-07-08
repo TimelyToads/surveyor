@@ -25,14 +25,26 @@ exports.up = function(knex, Promise) {
       table.string('description');
       table.string('url', 1024);
       table.string('formattedLocation');
-    })
+    }),
+
+    knex.schema.createTable('actions', function(table) {
+      table.increments('id').primary();
+      table.integer('job_id')
+        .references('id')
+        .inTable('jobs');
+      table.date('date');
+      table.string('type');
+      table.string('contact');
+      table.boolean('completed');
+    }),
   ])
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
+    knex.schema.dropTable('actions'),
     knex.schema.dropTable('jobs'),
-    knex.schema.dropTable('users')
+    knex.schema.dropTable('users'),
   ]);
 };
 

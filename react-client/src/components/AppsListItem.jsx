@@ -20,28 +20,25 @@ class AppsListItem extends React.Component {
 
       <Table.Row textAlign='center' onClick={this.handleClick} >
 
-        {/*<Table.Cell>	
+        <Table.Cell>	
           <AppActionsDashboard app={this.props.app} />
-        </Table.Cell>*/}
-        <Table.Cell>
-          {/* CHANGE THIS TO NEXT ACTION DUE DATE!!! */}
-          {this.props.app.city}
         </Table.Cell>
         <Table.Cell>
           {/* CHANGE THIS TO NEXT ACTION!!! */}
           {this.props.app.state}
         </Table.Cell>
         <Table.Cell>
+          {/* CHANGE THIS TO NEXT ACTION DUE DATE!!! */}
+          {this.props.app.city}
+        </Table.Cell>
+        <Table.Cell>
           {this.props.app.company}
         </Table.Cell>
         <Table.Cell>	
-          {this.props.app.title}
+          <a href={this.props.app.url} >{this.props.app.title}</a>
         </Table.Cell>
         <Table.Cell>
           {this.props.app.formattedLocation}
-        </Table.Cell>
-        <Table.Cell>
-          {this.props.app.dateApplied} 
         </Table.Cell>
         <Table.Cell singleLine > 
           <Logo size='mini' jobListItem={this.props.app} />

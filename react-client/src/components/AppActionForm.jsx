@@ -25,9 +25,9 @@ class AppActionForm extends React.Component {
         <Form.Group widths='equal'>
           <Form.Input label='Due Date' placeholder={'2001-01-01'} />
           <Form.Select label='Action to Take' options={options} placeholder='action' />
-          <Form.Input label='Contact' placeholder='contact info' />
+          <Form.Input label='Contact Info' placeholder='contact info' />
         </Form.Group>
-        <Form.Button color='green'>Schedule an Action</Form.Button>
+        <Form.Button fluid color='blue' >Schedule an Action</Form.Button>
       </Form>
     );
   }
