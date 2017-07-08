@@ -1,5 +1,6 @@
 import React from 'react'
 import { Checkbox, Form, Input, Select } from 'semantic-ui-react'
+import axios from 'axios'
 
 const options = [
   { key: 0, text: 'Follow-up Call', value: 'followUpCall' },
@@ -16,7 +17,23 @@ class AppActionForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      date: '2017-08-11',
+      completed: false,
+      type: 'Followup Email',
+      contact: 'some@body.com',
+      username: props.username
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    //
+  }
+
+  handleSubmit(e) {
+    console.log('AppActionForm handleSubmit() e:', e, '\ne.target.value:', e.target.value);
+    axios.post(`/api/users/${this.props.username}/jobs/action`, this.state);
   }
 
   render() {
@@ -27,7 +44,7 @@ class AppActionForm extends React.Component {
           <Form.Select label='Action to Take' options={options} placeholder='action' />
           <Form.Input label='Contact Info' placeholder='contact info' />
         </Form.Group>
-        <Form.Button fluid color='blue' >Schedule an Action</Form.Button>
+        <Form.Button onClick={this.handleSubmit} fluid color='blue' >Schedule an Action</Form.Button>
       </Form>
     );
   }

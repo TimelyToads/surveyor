@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import AppActionForm from './AppActionForm.jsx'
 import AppActionsListItem from './AppActionsListItem.jsx'
-import data from '../../../database/mockData.js'
+// import data from '../../../database/mockData.js'
 import { Header, Table, Image, Label, Segment, Button, Icon, Modal } from 'semantic-ui-react'
 
 class AppActionsDashboard extends React.Component {
@@ -46,7 +46,7 @@ class AppActionsDashboard extends React.Component {
               </Segment.Group>
               <Segment.Group raised >
                 <Segment>
-                  <AppActionForm />
+                  <AppActionForm username={this.props.app.username} />
                 </Segment>
               </Segment.Group>
           </Modal.Description>
