@@ -4,6 +4,7 @@ import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
 import axios from 'axios';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
+import { store } from '../../index.jsx';
 
 class GoogleAuth extends React.Component {
   constructor(props) {

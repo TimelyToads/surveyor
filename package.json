@@ -14,6 +14,11 @@
   },
   "author": "Alexander Schnapp, Padma Govindarajalu, David Oh",
   "license": "ISC",
+<<<<<<< HEAD
+=======
+  "devDependencies": {
+  },
+>>>>>>> partially completed redux implementation and re-architecture
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.23.1",
@@ -42,6 +47,7 @@
     "react-dom": "^15.4.2",
     "react-dropzone": "^3.13.3",
     "react-facebook-login": "^3.6.2",
+    "redux": "^3.7.1",
     "request-promise": "^4.2.1",
     "semantic-ui-react": "^0.70.0",
     "underscore": "^1.8.3",

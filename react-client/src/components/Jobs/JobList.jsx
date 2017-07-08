@@ -38,7 +38,3 @@ class JobList extends React.Component {
 
 export default JobList;
 
-
-		// <div>
-		// 				<Save saveQuery={this.props.saveQuery}/>
-		// 			</div>

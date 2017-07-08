@@ -11,7 +11,7 @@ import { Divider } from 'semantic-ui-react';
 
 let Navigation = (props) => {
       if (props.view === 'login') {
-        return <GoogleAuth isUserAuthenticated={props.isUserAuthenticated} authenticateUser={props.authenticateUser} />
+        return <GoogleAuth authenticateUser={props.authenticateUser} />
       } else if (props.view === 'start') {
         return (
           <div>
@@ -28,7 +28,7 @@ let Navigation = (props) => {
               <Divider hidden />
                <Divider hidden />
                <DropResumeMessage />
-              <JobList jobList={props.jobs} saveQuery={props.saveQuery} onSaveJob={props.onSaveJob}/>
+              <JobList jobList={props.jobs} onSaveJob={props.onSaveJob}/>
             </div>
         )
       } else if (props.view === 'apps') {

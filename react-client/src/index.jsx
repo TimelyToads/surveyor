@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
 import JobList from './components/Jobs/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
-import $ from 'jquery';
 import Save from './components/Save.jsx';
-import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
 import Login from './components/Authentication/Login.jsx';
@@ -16,43 +13,46 @@ import Navigation from './components/Navigation.jsx'
 import MainMenu from './components/MainMenu.jsx'
 import LandingImage from './components/LandingImage.jsx';
 import JobSearch from './components/Jobs/JobSearch.jsx';
+import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
+import { createStore } from 'redux';
+import modifyState from '../../server/modifyState.js';
+import { dragLeave, dragEnter, searchJobs, loadPreviousResume, loginUser, logoutUser, setView } from '../../server/actions.js';
 
+let defaultAppState = {
+  jobs: [],
+  loadingPreviousResume: false,
+  isAuthenticated: false,
+  view: 'login',
+}
+
+let store = createStore(modifyState, defaultAppState);
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobs: [],
-      technology: '',
-      view: 'login',
-      files: [],
-      dropzoneActive: false,
-      loadingPrevious: false,
+      view: store.getState().view,
       errMsg: '',
-      activateBlur: false,
-      isAuthenticated: false,
+      dropzoneActive: false,
       user: {}
     };
     this.onSearch = this.onSearch.bind(this);
-    this.saveQuery = this.saveQuery.bind(this);
-    this.onTechnologyChange = this.onTechnologyChange.bind(this);
-    this.onLoad = this.onLoad.bind(this);
     this.onSaveJob = this.onSaveJob.bind(this);
   }
   
   authenticateUser(userObj) {
     console.log('Calling authenticateUser');
     if (userObj) {
+      store.dispatch(loginUser());
+      store.dispatch(setView('start'));
       this.setState({
-        isAuthenticated: true,
-        user: userObj,
-        view: 'start'
+        user: userObj
       })
     } else {
+      store.dispatch(logoutUser());
+      store.dispatch(setView('login'));
       this.setState({
-        isAuthenticated: false,
-        user: {},
-        view: 'login'
+        user: {}
       })
     }
   }
@@ -62,22 +62,15 @@ class App extends React.Component {
   }
 
   isUserAuthenticated() {
-    return this.state.isAuthenticated
+    return store.getState().isAuthenticated;
   }
 
-  onTechnologyChange(query) {
-    this.setState({
-      technology: query
-    })
-  }
 
   onSearch(query) {
-    this.setState({
-      view: 'loading'
-    });
+    store.dispatch(setView('loading'));
+    this.setState( {view: 'loading'} );
 
-    var that = this;
-    setTimeout(function() {
+    setTimeout(() => {
       fetch('/', {
         method: 'POST',
         headers: {
@@ -93,16 +86,14 @@ class App extends React.Component {
         if (result.error) {
           throw err;
         }
-        that.setState({
-          jobs: result,
-          view: 'jobs',
-          loadingPrevious: false
-        });
+        console.log('Received job results: ', result);
+        store.dispatch(searchJobs(result));
+        store.dispatch(setView('jobs'));
+        this.setState({view: 'jobs' });
       })
       .catch(err => {
-        that.setState({
+        this.setState({
           view: 'search',
-          loadingPrevious: false,
           errMsg: err + ''
         })
       });
@@ -111,22 +102,23 @@ class App extends React.Component {
 
   onDragEnter() {
     this.setState({
-      dropzoneActive: true,
-      activateBlur: true
+      dropzoneActive: true
     });
+
   }
 
   onDragLeave() {
     this.setState({
-      dropzoneActive: false,
-      activateBlur: false
+      dropzoneActive: false
     });
   }
 
   onDrop(files) {
-    this.setState({ view: 'loading', activateBlur: false });
+    this.setState({ view: 'loading' });
+    
     let formData = new FormData();
 
+    store.dispatch(dragLeave());
     this.setState({ files, dropzoneActive: false });
     formData.append('file', files[0]);
 
@@ -142,7 +134,6 @@ class App extends React.Component {
       }
 
       var query = result.join(', ');
-      this.setState({ technology: query });
       this.onSearch(query);
     })
     .catch(err => {
@@ -150,41 +141,6 @@ class App extends React.Component {
     })
   }
 
-  saveQuery(loginData) {
-    fetch('/saveQuery', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: loginData.id,
-        query: this.state.technology
-      }),
-    });
-  }
-
-  onLoad(loginData) {
-    fetch('/load', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: loginData.id
-      })
-    })
-    .then(response => {
-      return response.text()
-    })
-    .then(query => {
-      if (query) {
-        this.setState({
-          loadingPrevious: true
-        })
-        this.onSearch(query);
-      }
-    });
-  }
 
   onSaveJob(job) {
     console.log(job);
@@ -204,14 +160,13 @@ class App extends React.Component {
   }
 
 
-  componentDidMount(props) {
-  }
-
   render () {
-    const { accept, files, dropzoneActive, isAuthenticated, view } = this.state;
-
+    const { accept, files , dropzoneActive } = this.state;
+    const { jobs, loadingPreviousResume, isAuthenticated, view } = store.getState();
+    console.log('Jobs ', jobs);
     var style = {};
-    if (this.state.activateBlur) {
+    if (dropzoneActive) {
+      console.log('activiting blur');
       style = {
         'WebkitFilter': 'blur(3px)',
         'MozFilter': 'blur(3px)',
@@ -224,25 +179,21 @@ class App extends React.Component {
     return (
       <div>
 
-        <MainMenu view={this.state.view} handleItemClick={this.handleItemClick.bind(this)}/>      
+        <MainMenu view={view} handleItemClick={this.handleItemClick.bind(this)}/>      
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
-            <Top jobs={this.state.jobs}/>
+            <Top jobs={jobs}/>
             <Navigation 
-              view={this.state.view} 
-              loadingPrevious={this.state.loadingPrevious} 
-              jobs={this.state.jobs} 
-              saveQuery={this.saveQuery.bind(this)} 
+              view={view} 
+              loadingPrevious={loadingPreviousResume} 
+              jobs={jobs} 
               errMsg={this.state.errMsg}
               isUserAuthenticated={this.isUserAuthenticated.bind(this)} 
               authenticateUser={this.authenticateUser.bind(this)} 
               onSaveJob={this.onSaveJob}
               user={this.state.user}
               />
-          </div>
-          <div hidden>
-            <Load onLoad={this.onLoad}/>
           </div>
         </Dropzone>
       </div>
@@ -251,4 +202,6 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+export { store }
 
