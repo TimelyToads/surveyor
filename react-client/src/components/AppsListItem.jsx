@@ -35,7 +35,7 @@ class AppsListItem extends React.Component {
           {this.props.app.company}
         </Table.Cell>
         <Table.Cell>	
-          {this.props.app.title}
+          <a href={this.props.app.url} >{this.props.app.title}</a>
         </Table.Cell>
         <Table.Cell>
           {this.props.app.formattedLocation}
