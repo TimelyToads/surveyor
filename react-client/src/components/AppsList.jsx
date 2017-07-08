@@ -67,7 +67,6 @@ class AppsList extends React.Component {
               <Table.HeaderCell>Company</Table.HeaderCell>
               <Table.HeaderCell>Job Title</Table.HeaderCell>
               <Table.HeaderCell>Location</Table.HeaderCell>
-              <Table.HeaderCell>Applied</Table.HeaderCell>
               <Table.HeaderCell>Source</Table.HeaderCell>
             </Table.Row>
           </Table.Header>

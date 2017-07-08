@@ -40,9 +40,6 @@ class AppsListItem extends React.Component {
         <Table.Cell>
           {this.props.app.formattedLocation}
         </Table.Cell>
-        <Table.Cell>
-          {this.props.app.dateApplied} 
-        </Table.Cell>
         <Table.Cell singleLine > 
           <Logo size='mini' jobListItem={this.props.app} />
         </Table.Cell>
