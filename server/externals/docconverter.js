@@ -4,10 +4,8 @@ const FormData = require('form-data');
 const fs = require('file-system');
 const docAnalyzer = require('./naturalLanguageUnderstanding.js');
 const API_KEYS = require('../../lib/api_keys.js')
-// const converterUser = process.env.WATSONCONVERTERUSER;
-// const converterPass = process.env.WATSONCONVERTERPASS;
-const converterUser = API_KEYS.doc_conversion_username;
-const converterPass = API_KEYS.doc_conversion_password;
+const converterUser = process.env.WATSONCONVERTERUSER || API_KEYS.doc_conversion_username;
+const converterPass = process.env.WATSONCONVERTERPASS || API_KEYS.doc_conversion_password;
 
 let convertDoc = (request, callback) => {
  console.log('\n Inside doconverter.js with doc: ', request.files[0].path);
