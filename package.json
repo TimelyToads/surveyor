@@ -8,19 +8,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "heroku-postbuild": "webpack -p",
+    "heroku-postbuild": "webpack",
     "react-dev": "webpack -d --watch",
     "server-dev": "export DATABASE_URL=postgresql://localhost:5432/surveyorDB && nodemon server/index.js"
   },
   "author": "Alexander Schnapp, Padma Govindarajalu, David Oh",
   "license": "ISC",
-  "devDependencies": {
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.23.0",
-    "webpack": "^2.2.1"
-  },
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.23.1",
