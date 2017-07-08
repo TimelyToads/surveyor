@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
+import axios from 'axios'
 import AppActionForm from './AppActionForm.jsx'
 import AppActionsListItem from './AppActionsListItem.jsx'
-// import data from '../../../database/mockData.js'
 import { Header, Table, Image, Label, Segment, Button, Icon, Modal } from 'semantic-ui-react'
 
 class AppActionsDashboard extends React.Component {
@@ -14,10 +14,31 @@ class AppActionsDashboard extends React.Component {
         return b.date - a.date;
       }),
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-
+  handleSubmit(action) {
+    var newAction = {
+      username: this.props.app.username,
+      job_id: this.props.app.id,
+      date: action.date,
+      type: action.type,
+      contact: action.contact,
+      completed: action.completed
+    };
+    axios.post(`/api/users/${this.props.app.username}/jobs/action`, newAction)
+    .then(action => {
+      var updatedActions = this.state.actions.concat([action.data]).sort( (a, b) => {
+        return b.date - a.date;
+      });
+      this.setState({
+        actions: updatedActions
+      });
+    })
+    .catch(err => {
+      console.log('ERROR creating new action in DB: ', err);
+      alert('Database error! New action was not saved.');
+    });
   }
 
   render() {
@@ -46,7 +67,7 @@ class AppActionsDashboard extends React.Component {
               </Segment.Group>
               <Segment.Group raised >
                 <Segment>
-                  <AppActionForm username={this.props.app.username} jobId={this.props.app.id} />
+                  <AppActionForm handleSubmit={this.handleSubmit} />
                 </Segment>
               </Segment.Group>
           </Modal.Description>
