@@ -32,6 +32,9 @@ exports.up = function(knex, Promise) {
       table.integer('job_id')
         .references('id')
         .inTable('jobs');
+      table.string('username')
+        .references('username')
+        .inTable('users');
       table.date('date');
       table.string('type');
       table.string('contact');

@@ -106,7 +106,7 @@ app.post('/api/users/:username/jobs', (req, res) => {
 })
 
 app.post('/api/users/:username/jobs/action', (req, res) => {
-  console.log('POST /api/users/:username/jobs/action');
+  console.log(`POST /api/users/${req.body.username}/jobs/action`);
   models.Action.forge(req.body).save()
   .then( action => {
     console.log('\tSUCCESS');

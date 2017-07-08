@@ -4,6 +4,9 @@ const User = bookshelf.Model.extend({
   tableName: 'users',
   jobs: function() {
     return this.hasMany(Job);
+  },
+  actions: function() {
+    return this.hasMany(Action);
   }
 });
 
@@ -21,6 +24,9 @@ const Action = bookshelf.Model.extend({
   tableName: 'actions',
   job: function() {
     return this.belongsTo(Job);
+  },
+  user: function() {
+    return this.belongsTo(User);
   }
 });
 
