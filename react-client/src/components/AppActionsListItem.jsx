@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Checkbox } from 'semantic-ui-react'
 
 class AppActionsListItem extends React.Component {
 
@@ -10,10 +10,12 @@ class AppActionsListItem extends React.Component {
   render() {
     return (
       <Segment.Group horizontal >
-        <Segment>{this.props.action.date}</Segment>
-        <Segment>{this.props.action.completed}</Segment>
-        <Segment>{this.props.action.type}</Segment>
-        <Segment>{this.props.action.contact}</Segment>
+        <Segment textAlign='center' >{this.props.action.date}</Segment>
+        <Segment textAlign='center' >
+          <Checkbox checked={this.props.action.completed} ></Checkbox>
+        </Segment>
+        <Segment textAlign='center' >{this.props.action.type}</Segment>
+        <Segment textAlign='center' >{this.props.action.contact}</Segment>
       </Segment.Group>
     );
   }

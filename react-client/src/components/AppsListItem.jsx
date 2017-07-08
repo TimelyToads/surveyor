@@ -20,16 +20,16 @@ class AppsListItem extends React.Component {
 
       <Table.Row textAlign='center' onClick={this.handleClick} >
 
-        {/*<Table.Cell>	
+        <Table.Cell>	
           <AppActionsDashboard app={this.props.app} />
-        </Table.Cell>*/}
-        <Table.Cell>
-          {/* CHANGE THIS TO NEXT ACTION DUE DATE!!! */}
-          {this.props.app.city}
         </Table.Cell>
         <Table.Cell>
           {/* CHANGE THIS TO NEXT ACTION!!! */}
           {this.props.app.state}
+        </Table.Cell>
+        <Table.Cell>
+          {/* CHANGE THIS TO NEXT ACTION DUE DATE!!! */}
+          {this.props.app.city}
         </Table.Cell>
         <Table.Cell>
           {this.props.app.company}

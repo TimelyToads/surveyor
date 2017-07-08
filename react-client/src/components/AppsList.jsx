@@ -1,8 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import AppsListItem from './AppsListItem.jsx';
-import { Header, Table } from 'semantic-ui-react'
-import data from '../../../database/mockData.js'
+import { Segment, Header, Table } from 'semantic-ui-react'
 import axios from 'axios'
 
 class AppsList extends React.Component {
@@ -11,7 +10,7 @@ class AppsList extends React.Component {
     this.state = {
       // column: null,
       // direction: null,
-      apps: data,
+      apps: [],
       activeJob: ''
     };
     this.handleClick = this.handleClick.bind(this);
@@ -58,26 +57,26 @@ class AppsList extends React.Component {
     });
 
 		return (
-      <div>
+      <Segment>
         <Table selectable >
-					<Table.Header>
-						<Table.Row>
-							{/*<Table.HeaderCell>Details</Table.HeaderCell>*/}
-							<Table.HeaderCell>Due</Table.HeaderCell>
-							<Table.HeaderCell>Next Action</Table.HeaderCell>
-							<Table.HeaderCell>Company</Table.HeaderCell>
-							<Table.HeaderCell>Job Title</Table.HeaderCell>
-							<Table.HeaderCell>Location</Table.HeaderCell>
-							<Table.HeaderCell>Applied</Table.HeaderCell>
-							<Table.HeaderCell>Source</Table.HeaderCell>
-						</Table.Row>
-					</Table.Header>
+          <Table.Header>
+            <Table.Row textAlign='center' >
+              <Table.HeaderCell>Details</Table.HeaderCell>
+              <Table.HeaderCell>Next Action</Table.HeaderCell>
+              <Table.HeaderCell>Due</Table.HeaderCell>
+              <Table.HeaderCell>Company</Table.HeaderCell>
+              <Table.HeaderCell>Job Title</Table.HeaderCell>
+              <Table.HeaderCell>Location</Table.HeaderCell>
+              <Table.HeaderCell>Applied</Table.HeaderCell>
+              <Table.HeaderCell>Source</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
 
-					<Table.Body>
+          <Table.Body>
             {applicationsList}
-					</Table.Body>
-				</Table>
-			</div>
+          </Table.Body>
+        </Table>
+      </Segment>
 		)
 	} // end render
 };

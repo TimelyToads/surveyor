@@ -29,7 +29,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTable('actions', function(table) {
       table.increments('id').primary();
-      table.integer('job_id').unique()
+      table.integer('job_id')
         .references('id')
         .inTable('jobs');
       table.date('date');
@@ -42,9 +42,9 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
+    knex.schema.dropTable('actions'),
     knex.schema.dropTable('jobs'),
     knex.schema.dropTable('users'),
-    knex.schema.dropTable('actions')
   ]);
 };
 
