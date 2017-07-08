@@ -46,7 +46,7 @@ class AppActionsDashboard extends React.Component {
               </Segment.Group>
               <Segment.Group raised >
                 <Segment>
-                  <AppActionForm username={this.props.app.username} />
+                  <AppActionForm username={this.props.app.username} jobId={this.props.app.id} />
                 </Segment>
               </Segment.Group>
           </Modal.Description>
