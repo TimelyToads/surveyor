@@ -62,8 +62,8 @@ class GoogleAuth extends React.Component {
 
   initClient() {
     gapi.client.init({
-      'apiKey': API_KEYS.g_apiKey,
-      'clientId': API_KEYS.g_client_id,
+      'apiKey': process.env.g_apikey || API_KEYS.g_apiKey,
+      'clientId': process.env.g_client_id || API_KEYS.g_client_id,
       'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/calendar'],
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest','https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
   }).then(() => {
@@ -73,7 +73,7 @@ class GoogleAuth extends React.Component {
 
   render() {
     const tags = [
-      {name: "google-signin-client_id", content: `${API_KEYS.g_client_id}`},
+      {name: "google-signin-client_id", content: `${process.env.g_client_id || API_KEYS.g_client_id}`},
       {name: "google-signin-scope", content: "profile email"}
     ]
     const { open, closeOnEscape, closeOnRootNodeClick } = this.state
