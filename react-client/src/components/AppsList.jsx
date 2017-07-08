@@ -1,9 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import AppsListItem from './AppsListItem.jsx';
-// import Save from './Save.jsx';
-import { Header, Table, Rating } from 'semantic-ui-react'
+import { Header, Table } from 'semantic-ui-react'
 import data from '../../../database/mockData.js'
+import axios from 'axios'
 
 class AppsList extends React.Component {
 	constructor(props) {
@@ -11,7 +11,7 @@ class AppsList extends React.Component {
     this.state = {
       // column: null,
       // direction: null,
-      data: data,
+      apps: data,
       activeJob: ''
     };
     this.handleClick = this.handleClick.bind(this);
@@ -36,46 +36,45 @@ class AppsList extends React.Component {
 	// }
 
   componentDidMount() {
-    console.log('EVENTUALLY fetch something from the DB:', data);
-    // this.setState({
-    //   activeJob: data[2].job_id
-    // });
+    axios.get(`/api/users/${this.props.user.username}/jobs`)
+    .then(apps => {
+      this.setState({
+        apps: apps.data
+      })
+    })
+    .catch(err => {
+      console.log('ERROR fetching job applications from DB: ', err);
+    });
   }
 
   handleClick(id) {
     console.log('Table.Row click event: ', id);
-    this.setState({
-      activeJob: id
-    })
   }
 
 	render() {
 
+    var applicationsList = this.state.apps.map( app => {
+      return <AppsListItem handleClick={this.handleClick} key={app.id} app={app} />
+    });
+
 		return (
       <div>
-        <Table celled selectable >
+        <Table selectable >
 					<Table.Header>
 						<Table.Row>
-							<Table.HeaderCell>Details</Table.HeaderCell>
-							<Table.HeaderCell>Job Title</Table.HeaderCell>
+							{/*<Table.HeaderCell>Details</Table.HeaderCell>*/}
+							<Table.HeaderCell>Due</Table.HeaderCell>
+							<Table.HeaderCell>Next Action</Table.HeaderCell>
 							<Table.HeaderCell>Company</Table.HeaderCell>
-							<Table.HeaderCell>Source</Table.HeaderCell>
+							<Table.HeaderCell>Job Title</Table.HeaderCell>
 							<Table.HeaderCell>Location</Table.HeaderCell>
 							<Table.HeaderCell>Applied</Table.HeaderCell>
-							<Table.HeaderCell>Next Action</Table.HeaderCell>
-							<Table.HeaderCell>Due</Table.HeaderCell>
+							<Table.HeaderCell>Source</Table.HeaderCell>
 						</Table.Row>
 					</Table.Header>
 
 					<Table.Body>
-
-            {this.state.data.map( (app, index) => <AppsListItem 
-              handleClick={this.handleClick}
-              activeJob={this.state.activeJob === app.job_id} 
-              key={index} 
-              app={app} /> )
-            }
-
+            {applicationsList}
 					</Table.Body>
 				</Table>
 			</div>

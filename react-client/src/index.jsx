@@ -239,6 +239,7 @@ class App extends React.Component {
               isUserAuthenticated={this.isUserAuthenticated.bind(this)} 
               authenticateUser={this.authenticateUser.bind(this)} 
               onSaveJob={this.onSaveJob}
+              user={this.state.user}
               />
           </div>
           <div hidden>

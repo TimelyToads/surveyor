@@ -1,13 +1,13 @@
+import React from 'react';
 import JobList from './JobList.jsx';
 import DragAndDrop from './DragAndDrop.jsx'
 import DropResumeMessage from './DropResumeMessage.jsx'
+import AppsList from './AppsList.jsx'
 import Loading from './Loading.jsx';
-import React from 'react';
 import GoogleAuth from './Authentication/GoogleAuth.jsx';
 import LandingImage from './LandingImage.jsx';
 import JobSearch from './Jobs/JobSearch.jsx';
 import { Divider } from 'semantic-ui-react';
-import AppsList from './AppsList.jsx';
 
 let Navigation = (props) => {
       if (props.view === 'login') {
@@ -33,7 +33,7 @@ let Navigation = (props) => {
         )
       } else if (props.view === 'apps') {
         return (
-          <AppsList />
+          <AppsList user={props.user} />
         );
       }else {
         return null;
