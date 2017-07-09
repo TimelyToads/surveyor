@@ -108,6 +108,7 @@ app.post('/api/users/:username/jobs', (req, res) => {
 app.post('/api/users/:username/jobs/action', (req, res) => {
   console.log(`POST /api/users/${req.body.username}/jobs/action`);
   models.Action.forge(req.body).save()
+  // TODO: Solomon says this can probably be done with fetch()
   .then( action => {
     console.log('\tSUCCESS');
     res.status(201).json(action);
