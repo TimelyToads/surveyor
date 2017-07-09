@@ -6,13 +6,13 @@ let Logo = (props) => {
     if (props.jobListItem.jobSourceWebsite === 'Indeed') {
       return (
       <div>
-       <Image size="tiny" src='images/indeed.com-logo.png' />
+        <Image size='mini' src='images/indeed.com-logo.png' />
       </div>
       )
     } else if (props.jobListItem.jobSourceWebsite === 'Dice') {
       return (
       <div>
-         <Image size="tiny" src='images/dice_logo.jpg' />
+        <Image size='mini' src='images/dice_logo.jpg' />
       </div>
       )
     }

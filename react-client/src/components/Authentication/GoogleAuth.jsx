@@ -4,6 +4,9 @@ import API_KEYS from '../../../../lib/api_keys.js';
 import AuthHelper from '../../../../lib/AuthHelper.js';
 import axios from 'axios';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
+import { store } from '../../index.jsx';
+import actions from '../../../../server/actions.js';
+
 
 class GoogleAuth extends React.Component {
   constructor(props) {
@@ -14,6 +17,7 @@ class GoogleAuth extends React.Component {
       closeOnRootNodeClick: false
     }
   }
+
 
   componentDidMount() {
     gapi.signin2.render('g-signin2', {
@@ -36,18 +40,31 @@ class GoogleAuth extends React.Component {
     .then(res => {    
       // GET User from the DB    
       axios.get(`/api/users/${googleUserObject.username}`)  
-      .then(userObj => { this.props.authenticateUser(userObj.data) })
+      .then(userObj => { 
+        store.dispatch(actions.loginUser(userObj.data, 'start')); 
+        this.props.updateView('start');
+        // this.props.authenticateUser(userObj.data) 
+               
+      })
       .catch(err => { 
         // IF the User does not exist in the DB an Error will be caught, 
         // therefore just do an immediate POST with the same user data
         axios.post('/api/users', googleUserObject)
         .then(res => {
           console.log('Created new user in db ', googleUserObject);
-          this.props.authenticateUser(googleUserObject);
+          store.dispatch(actions.loginUser(googleUserObject, 'start')); 
+          this.props.updateView('start');
+          
+          // this.props.authenticateUser(googleUserObject);
+           
         })
         .catch(err => {
           console.log('ERROR creating user after Login', err);
-          this.props.authenticateUser(googleUserObject); 
+          store.dispatch(actions.loginUser(googleUserObject, 'start'));   
+          this.props.updateView('start');
+          
+          // this.props.authenticateUser(googleUserObject);
+          
         });
       });          
     })
@@ -61,9 +78,10 @@ class GoogleAuth extends React.Component {
   }
 
   initClient() {
+    console.log(process.env);
     gapi.client.init({
-      'apiKey': API_KEYS.g_apiKey,
-      'clientId': API_KEYS.g_client_id,
+      'apiKey': process.env.g_apikey || API_KEYS.g_apiKey,
+      'clientId': process.env.g_client_id || API_KEYS.g_client_id,
       'scope': ['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/calendar'],
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest','https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
   }).then(() => {
@@ -72,8 +90,9 @@ class GoogleAuth extends React.Component {
   }
 
   render() {
+    
     const tags = [
-      {name: "google-signin-client_id", content: `${API_KEYS.g_client_id}`},
+      {name: "google-signin-client_id", content: `${process.env.g_client_id || API_KEYS.g_client_id}`},
       {name: "google-signin-scope", content: "profile email"}
     ]
     const { open, closeOnEscape, closeOnRootNodeClick } = this.state

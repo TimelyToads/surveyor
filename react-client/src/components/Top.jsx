@@ -1,16 +1,15 @@
 import React from 'react';
+import { store } from '../index.jsx';
 
-class Top extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
+let Top = () => {
+  
+  const { jobs } = store.getState();
     return (
       <div>
-        {this.props.jobs.length !== 0 ? <span></span> : <span></span>}        
+        {jobs.length !== 0 ? <span></span> : <span></span>}        
       </div>
     );
-  }
+  
 }
 
 export default Top;
