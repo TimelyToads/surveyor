@@ -10,9 +10,7 @@ class AppActionsDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      actions: props.app.actions.sort( (a, b) => {
-        return b.date > a.date ? -1 : 1;
-      }),
+      actions: props.app.actions
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
