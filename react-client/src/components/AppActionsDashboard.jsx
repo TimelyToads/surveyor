@@ -11,7 +11,7 @@ class AppActionsDashboard extends React.Component {
     super(props);
     this.state = {
       actions: props.app.actions.sort( (a, b) => {
-        return b.date - a.date;
+        return b.date > a.date ? -1 : 1;
       }),
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,9 +27,9 @@ class AppActionsDashboard extends React.Component {
       completed: action.completed
     };
     axios.post(`/api/users/${this.props.app.username}/jobs/action`, newAction)
-    .then(action => {
-      var updatedActions = this.state.actions.concat([action.data]).sort( (a, b) => {
-        return b.date - a.date;
+    .then(res => {
+      var updatedActions = this.state.actions.concat([res.data]).sort( (a, b) => {
+        return b.date > a.date ? -1 : 1;
       });
       this.setState({
         actions: updatedActions

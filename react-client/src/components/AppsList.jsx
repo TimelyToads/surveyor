@@ -10,8 +10,7 @@ class AppsList extends React.Component {
     this.state = {
       // column: null,
       // direction: null,
-      apps: [],
-      activeJob: ''
+      apps: []
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -36,9 +35,9 @@ class AppsList extends React.Component {
 
   componentDidMount() {
     axios.get(`/api/users/${this.props.user.username}/jobs`)
-    .then(apps => {
+    .then(res => {
       this.setState({
-        apps: apps.data
+        apps: res.data
       })
     })
     .catch(err => {
