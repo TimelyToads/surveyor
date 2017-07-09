@@ -16,16 +16,18 @@ import JobSearch from './components/Jobs/JobSearch.jsx';
 import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
 import { createStore } from 'redux';
 import modifyState from '../../server/modifyState.js';
-import { dragLeave, dragEnter, searchJobs, loadPreviousResume, loginUser, logoutUser, setView } from '../../server/actions.js';
+import actions from '../../server/actions.js';
 
 let defaultAppState = {
   jobs: [],
   loadingPreviousResume: false,
   isAuthenticated: false,
   view: 'login',
+  user: {}
 }
 
 let store = createStore(modifyState, defaultAppState);
+export { store }
 
 class App extends React.Component {
   constructor(props) {
@@ -34,41 +36,16 @@ class App extends React.Component {
       view: store.getState().view,
       errMsg: '',
       dropzoneActive: false,
-      user: {}
     };
-    this.onSearch = this.onSearch.bind(this);
-    this.onSaveJob = this.onSaveJob.bind(this);
   }
   
-  authenticateUser(userObj) {
-    console.log('Calling authenticateUser');
-    if (userObj) {
-      store.dispatch(loginUser());
-      store.dispatch(setView('start'));
-      this.setState({
-        user: userObj
-      })
-    } else {
-      store.dispatch(logoutUser());
-      store.dispatch(setView('login'));
-      this.setState({
-        user: {}
-      })
-    }
+  updateView(newView) {
+    this.setState( { view: newView });
   }
-
-  setUserObject(userObj) {
-    this.setState( {user: userObj} );
-  }
-
-  isUserAuthenticated() {
-    return store.getState().isAuthenticated;
-  }
-
 
   onSearch(query) {
-    store.dispatch(setView('loading'));
-    this.setState( {view: 'loading'} );
+    store.dispatch(actions.setView('loading'));
+    this.setState( {view: 'loading' })
 
     setTimeout(() => {
       fetch('/', {
@@ -87,39 +64,34 @@ class App extends React.Component {
           throw err;
         }
         console.log('Received job results: ', result);
-        store.dispatch(searchJobs(result));
-        store.dispatch(setView('jobs'));
-        this.setState({view: 'jobs' });
+        store.dispatch(actions.searchJobs(result));
+        store.dispatch(actions.setView('jobs'));
+        this.setState( {view: 'jobs' } )
       })
       .catch(err => {
-        this.setState({
-          view: 'search',
-          errMsg: err + ''
-        })
+        store.dispatch(actions.setView('search'));
+        this.setState({errMsg: err + '', view: 'search' })
       });
     }, 4000)
   }
 
   onDragEnter() {
-    this.setState({
-      dropzoneActive: true
-    });
-
+    this.setState({ dropzoneActive: true });
   }
 
   onDragLeave() {
-    this.setState({
-      dropzoneActive: false
-    });
+    this.setState({ dropzoneActive: false });
   }
 
   onDrop(files) {
-    this.setState({ view: 'loading' });
+    store.dispatch(actions.dragLeave());
+    store.dispatch(actions.setView('loading'));
+    this.setState( Object.assign(this.state, store.getState() ));
     
     let formData = new FormData();
 
-    store.dispatch(dragLeave());
-    this.setState({ files, dropzoneActive: false });
+    
+    // this.setState({ files: false });
     formData.append('file', files[0]);
 
     fetch('/upload', {
@@ -134,18 +106,18 @@ class App extends React.Component {
       }
 
       var query = result.join(', ');
-      this.onSearch(query);
+      this.onSearch.call(this, query);
+      // this.onSearch(query);
     })
     .catch(err => {
-      this.setState({ view: 'search', errMsg: err + ''});
+      store.dispatch(actions.setView('search'));
+      this.setState({ errMsg: err + '', view: 'search' });
     })
   }
 
 
   onSaveJob(job) {
-    console.log(job);
-    console.log(this.state.user);
-    axios.post(`/api/users/${this.state.user.username}/jobs`, job)
+    axios.post(`/api/users/${store.getState().user.username}/jobs`, job)
       .then( status => {
         console.log(status);
       })
@@ -156,14 +128,16 @@ class App extends React.Component {
 
   handleItemClick (e) {
     console.log('this is the motha fuckin name', e);
-    this.setState({ view: e });
+    store.dispatch(actions.setView(e));
+    this.setState( {view: e })
+    // this.setState( Object.assign(this.state, store.getState() ));
   }
 
 
   render () {
-    const { accept, files , dropzoneActive } = this.state;
-    const { jobs, loadingPreviousResume, isAuthenticated, view } = store.getState();
-    console.log('Jobs ', jobs);
+    const { accept, dropzoneActive } = this.state;
+    const { jobs, loadingPreviousResume, isAuthenticated, view, user } = store.getState();
+    console.log('Inside index.jsx: ', store.getState());
     var style = {};
     if (dropzoneActive) {
       console.log('activiting blur');
@@ -184,15 +158,12 @@ class App extends React.Component {
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
             <Top jobs={jobs}/>
+
             <Navigation 
-              view={view} 
               loadingPrevious={loadingPreviousResume} 
-              jobs={jobs} 
               errMsg={this.state.errMsg}
-              isUserAuthenticated={this.isUserAuthenticated.bind(this)} 
-              authenticateUser={this.authenticateUser.bind(this)} 
+              updateView={this.updateView.bind(this)} 
               onSaveJob={this.onSaveJob}
-              user={this.state.user}
               />
           </div>
         </Dropzone>
@@ -203,5 +174,5 @@ class App extends React.Component {
 
 ReactDOM.render(<App />, document.getElementById('app'));
 
-export { store }
+
 

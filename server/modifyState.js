@@ -4,13 +4,11 @@ let modifyState = (state, action) => {
     case 'DRAG_ENTER':
       var newState = Object.assign({}, state);
       newState.dropzoneActive = true;
-      newState.activateBlur = true;
       return newState;
     
     case 'DRAG_LEAVE':
       var newState = Object.assign({}, state);
       newState.dropzoneActive = false;
-      newState.activateBlur = false;
       return newState;
 
     case 'ACTIVATE_BLUR':
@@ -36,11 +34,15 @@ let modifyState = (state, action) => {
     case 'LOGIN_USER':
       var newState = Object.assign({}, state);
       newState.isAuthenticated = true;
+      newState.view = action.view;
+      newState.user = action.user;
       return newState;
 
     case 'LOGOUT_USER':
       var newState = Object.assign({}, state);
       newState.isAuthenticated = false;
+      newState.view = 'login';
+      newState.user = {};
       return newState;
 
     case 'SET_VIEW':

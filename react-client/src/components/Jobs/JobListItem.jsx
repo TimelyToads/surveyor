@@ -10,7 +10,8 @@ class JobListItem extends React.Component {
 
   handleSaveJob(e) {
     this.props.onSaveJob(this.props.jobListItem);
-  }
+	}
+	
 	render() {
 		return (
 

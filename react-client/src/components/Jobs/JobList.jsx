@@ -1,6 +1,7 @@
 import React from 'react';
 import JobListItem from './JobListItem.jsx';
 import { Header, Table, Rating, Segment } from 'semantic-ui-react'
+import { store } from '../../index.jsx';
 
 
 class JobList extends React.Component {
@@ -9,7 +10,7 @@ class JobList extends React.Component {
 	}
 
 	render() {
-
+		const { jobs } = store.getState();
 		return (
 			<div>
 				<Segment>
@@ -27,7 +28,8 @@ class JobList extends React.Component {
 							</Table.Row>
 						</Table.Header>
 					<Table.Body>
-							{this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item} onSaveJob={this.props.onSaveJob}/>)}
+							{/* {this.props.jobList.map( (item, index) => <JobListItem key={index} jobListItem = {item} onSaveJob={this.props.onSaveJob}/>)} */}
+							{jobs.map( (item, index) => <JobListItem key={index} jobListItem={item} onSaveJob={this.props.onSaveJob}/>)}
 					</Table.Body>
 				</Table>
 			</Segment>
