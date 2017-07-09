@@ -14,11 +14,7 @@
   },
   "author": "Alexander Schnapp, Padma Govindarajalu, David Oh",
   "license": "ISC",
-<<<<<<< HEAD
-=======
-  "devDependencies": {
-  },
->>>>>>> partially completed redux implementation and re-architecture
+  "devDependencies": {},
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.23.1",
