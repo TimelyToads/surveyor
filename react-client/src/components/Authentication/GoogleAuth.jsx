@@ -61,6 +61,7 @@ class GoogleAuth extends React.Component {
   }
 
   initClient() {
+    console.log(process.env);
     gapi.client.init({
       'apiKey': process.env.g_apikey || API_KEYS.g_apiKey,
       'clientId': process.env.g_client_id || API_KEYS.g_client_id,
