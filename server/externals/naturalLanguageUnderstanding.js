@@ -44,16 +44,16 @@ let parseDocumentKeywords = (doc, callback) => {
   }
   console.log('\n Parameters from doc.answer_units being passed to natural language understanding: ', parameters.text);
   natural_language_understanding.analyze(parameters, function(err, result) {
- 
-     if (result) {
-      let keywords = result.keywords.map((keyword) => {
+    let keywordsArray = result.keywords || result.entities;
+
+     if (keywordsArray) {
+       console.log('RESULT in natural language processing: ', result);
+      let keywords = keywordsArray.map((keyword) => {
         return keyword.text;
       });
       console.log("Successfully retrieved keywords from natural_language_undertstanding: ", keywords);
       callback(null, keywords);
-    } else  {
-      console.log(' Inside naturalLanguageUnderstand and received NULL for result: ', result);
-    }
+    } 
       if (err) {
       console.log('Error calling natural_language_understand.analyze w/ params: ', parameters);
       callback(err, null);

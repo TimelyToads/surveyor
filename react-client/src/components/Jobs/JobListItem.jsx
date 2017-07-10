@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Table, Rating, Image, Label, Button } from 'semantic-ui-react'
-import Logo from './Logo.jsx';
+import Logo from '../Logo.jsx';
 
 class JobListItem extends React.Component {
 	constructor(props) {
@@ -10,7 +10,8 @@ class JobListItem extends React.Component {
 
   handleSaveJob(e) {
     this.props.onSaveJob(this.props.jobListItem);
-  }
+	}
+	
 	render() {
 		return (
 

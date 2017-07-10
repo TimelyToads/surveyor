@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
-
-import JobList from './components/JobList.jsx';
+import JobList from './components/Jobs/JobList.jsx';
 import AppsList from './components/AppsList.jsx';
-import $ from 'jquery';
 import Save from './components/Save.jsx';
-import Load from './components/Load.jsx';
 import Loading from './components/Loading.jsx';
 import Dropzone from 'react-dropzone';
 import Login from './components/Authentication/Login.jsx';
@@ -17,68 +13,41 @@ import Navigation from './components/Navigation.jsx'
 import MainMenu from './components/MainMenu.jsx'
 import LandingImage from './components/LandingImage.jsx';
 import JobSearch from './components/Jobs/JobSearch.jsx';
+import { Input, Button, Icon, Header, Image, Form, Divider } from 'semantic-ui-react'
+import { createStore } from 'redux';
+import modifyState from '../../server/modifyState.js';
+import actions from '../../server/actions.js';
 
+let defaultAppState = {
+  jobs: [],
+  loadingPreviousResume: false,
+  isAuthenticated: false,
+  view: 'login',
+  user: {}
+}
+
+let store = createStore(modifyState, defaultAppState);
+export { store }
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobs: [],
-      technology: '',
-      view: 'login',
-      files: [],
-      dropzoneActive: false,
-      loadingPrevious: false,
+      view: store.getState().view,
       errMsg: '',
-      activateBlur: false,
-      isAuthenticated: false,
-      user: {}
+      dropzoneActive: false,
     };
-    this.onSearch = this.onSearch.bind(this);
-    this.saveQuery = this.saveQuery.bind(this);
-    this.onTechnologyChange = this.onTechnologyChange.bind(this);
-    this.onLoad = this.onLoad.bind(this);
-    this.onSaveJob = this.onSaveJob.bind(this);
   }
   
-  authenticateUser(userObj) {
-    console.log('Calling authenticateUser');
-    if (userObj) {
-      this.setState({
-        isAuthenticated: true,
-        user: userObj,
-        view: 'start'
-      })
-    } else {
-      this.setState({
-        isAuthenticated: false,
-        user: {},
-        view: 'login'
-      })
-    }
-  }
-
-  setUserObject(userObj) {
-    this.setState( {user: userObj} );
-  }
-
-  isUserAuthenticated() {
-    return this.state.isAuthenticated
-  }
-
-  onTechnologyChange(query) {
-    this.setState({
-      technology: query
-    })
+  updateView(newView) {
+    this.setState( { view: newView });
   }
 
   onSearch(query) {
-    this.setState({
-      view: 'loading'
-    });
+    store.dispatch(actions.setView('loading'));
+    this.setState( {view: 'loading' })
 
-    var that = this;
-    setTimeout(function() {
+    setTimeout(() => {
       fetch('/', {
         method: 'POST',
         headers: {
@@ -94,41 +63,35 @@ class App extends React.Component {
         if (result.error) {
           throw err;
         }
-        that.setState({
-          jobs: result,
-          view: 'jobs',
-          loadingPrevious: false
-        });
+        console.log('Received job results: ', result);
+        store.dispatch(actions.searchJobs(result));
+        store.dispatch(actions.setView('jobs'));
+        this.setState( {view: 'jobs' } )
       })
       .catch(err => {
-        that.setState({
-          view: 'search',
-          loadingPrevious: false,
-          errMsg: err + ''
-        })
+        store.dispatch(actions.setView('search'));
+        this.setState({errMsg: err + '', view: 'search' })
       });
     }, 4000)
   }
 
   onDragEnter() {
-    this.setState({
-      dropzoneActive: true,
-      activateBlur: true
-    });
+    this.setState({ dropzoneActive: true });
   }
 
   onDragLeave() {
-    this.setState({
-      dropzoneActive: false,
-      activateBlur: false
-    });
+    this.setState({ dropzoneActive: false });
   }
 
   onDrop(files) {
-    this.setState({ view: 'loading', activateBlur: false });
+    store.dispatch(actions.dragLeave());
+    store.dispatch(actions.setView('loading'));
+    this.setState( Object.assign(this.state, store.getState() ));
+    
     let formData = new FormData();
 
-    this.setState({ files, dropzoneActive: false });
+    
+    // this.setState({ files: false });
     formData.append('file', files[0]);
 
     fetch('/upload', {
@@ -143,54 +106,18 @@ class App extends React.Component {
       }
 
       var query = result.join(', ');
-      this.setState({ technology: query });
-      this.onSearch(query);
+      this.onSearch.call(this, query);
+      // this.onSearch(query);
     })
     .catch(err => {
-      this.setState({ view: 'search', errMsg: err + ''});
+      store.dispatch(actions.setView('search'));
+      this.setState({ errMsg: err + '', view: 'search' });
     })
   }
 
-  saveQuery(loginData) {
-    fetch('/saveQuery', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: loginData.id,
-        query: this.state.technology
-      }),
-    });
-  }
-
-  onLoad(loginData) {
-    fetch('/load', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: loginData.id
-      })
-    })
-    .then(response => {
-      return response.text()
-    })
-    .then(query => {
-      if (query) {
-        this.setState({
-          loadingPrevious: true
-        })
-        this.onSearch(query);
-      }
-    });
-  }
 
   onSaveJob(job) {
-    console.log(job);
-    console.log(this.state.user);
-    axios.post(`/api/users/${this.state.user.username}/jobs`, job)
+    axios.post(`/api/users/${store.getState().user.username}/jobs`, job)
       .then( status => {
         console.log(status);
       })
@@ -201,18 +128,19 @@ class App extends React.Component {
 
   handleItemClick (e) {
     console.log('this is the motha fuckin name', e);
-    this.setState({ view: e });
+    store.dispatch(actions.setView(e));
+    this.setState( {view: e })
+    // this.setState( Object.assign(this.state, store.getState() ));
   }
 
-
-  componentDidMount(props) {
-  }
 
   render () {
-    const { accept, files, dropzoneActive, isAuthenticated, view } = this.state;
-
+    const { accept, dropzoneActive } = this.state;
+    const { jobs, loadingPreviousResume, isAuthenticated, view, user } = store.getState();
+    console.log('Inside index.jsx: ', store.getState());
     var style = {};
-    if (this.state.activateBlur) {
+    if (dropzoneActive) {
+      console.log('activiting blur');
       style = {
         'WebkitFilter': 'blur(3px)',
         'MozFilter': 'blur(3px)',
@@ -225,25 +153,18 @@ class App extends React.Component {
     return (
       <div>
 
-        <MainMenu view={this.state.view} handleItemClick={this.handleItemClick.bind(this)}/>      
+        <MainMenu view={view} handleItemClick={this.handleItemClick.bind(this)}/>      
         <Dropzone disableClick style={{}} accept={accept} onDrop={this.onDrop.bind(this)} onDragEnter={this.onDragEnter.bind(this)} onDragLeave={this.onDragLeave.bind(this)} >
           { dropzoneActive && <div className="overlay">Release to Search</div> }
           <div style={style}>
-            <Top jobs={this.state.jobs}/>
+            <Top jobs={jobs}/>
+
             <Navigation 
-              view={this.state.view} 
-              loadingPrevious={this.state.loadingPrevious} 
-              jobs={this.state.jobs} 
-              saveQuery={this.saveQuery.bind(this)} 
+              loadingPrevious={loadingPreviousResume} 
               errMsg={this.state.errMsg}
-              isUserAuthenticated={this.isUserAuthenticated.bind(this)} 
-              authenticateUser={this.authenticateUser.bind(this)} 
+              updateView={this.updateView.bind(this)} 
               onSaveJob={this.onSaveJob}
-              user={this.state.user}
               />
-          </div>
-          <div hidden>
-            <Load onLoad={this.onLoad}/>
           </div>
         </Dropzone>
       </div>
@@ -252,4 +173,6 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+
 
