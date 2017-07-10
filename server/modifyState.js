@@ -49,6 +49,11 @@ let modifyState = (state, action) => {
       var newState = Object.assign({}, state);
       newState.view = action.view;
       return newState;
+  
+    case 'SET_JOB_APPLICATIONS':
+      var newState = Object.assign({}, state);
+      newState.apps = action.apps;
+      return newState;
 
     default:
       return state;

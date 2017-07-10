@@ -43,7 +43,15 @@ let actions = {
         type: 'SET_VIEW',
         view: newView
       }
+    },
+
+    setJobApplications: (jobApps) => {
+      return {
+        type: 'SET_JOB_APPLICATIONS',
+        apps: jobApps
+      }
     }
+
 }
 
 

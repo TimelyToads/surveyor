@@ -20,10 +20,11 @@ import actions from '../../server/actions.js';
 
 let defaultAppState = {
   jobs: [],
+  apps: [],
   loadingPreviousResume: false,
   isAuthenticated: false,
   view: 'login',
-  user: {}
+  user: {},
 }
 
 let store = createStore(modifyState, defaultAppState);
@@ -63,7 +64,6 @@ class App extends React.Component {
         if (result.error) {
           throw err;
         }
-        console.log('Received job results: ', result);
         store.dispatch(actions.searchJobs(result));
         store.dispatch(actions.setView('jobs'));
         this.setState( {view: 'jobs' } )
@@ -127,7 +127,6 @@ class App extends React.Component {
   }
 
   handleItemClick (e) {
-    console.log('this is the motha fuckin name', e);
     store.dispatch(actions.setView(e));
     this.setState( {view: e })
     // this.setState( Object.assign(this.state, store.getState() ));
@@ -137,10 +136,8 @@ class App extends React.Component {
   render () {
     const { accept, dropzoneActive } = this.state;
     const { jobs, loadingPreviousResume, isAuthenticated, view, user } = store.getState();
-    console.log('Inside index.jsx: ', store.getState());
     var style = {};
     if (dropzoneActive) {
-      console.log('activiting blur');
       style = {
         'WebkitFilter': 'blur(3px)',
         'MozFilter': 'blur(3px)',

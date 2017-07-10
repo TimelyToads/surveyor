@@ -3,21 +3,23 @@ import _ from 'lodash';
 import AppsListItem from './AppsListItem.jsx';
 import { Segment, Header, Table } from 'semantic-ui-react'
 import axios from 'axios'
+import { store } from '../index.jsx';
+import modifyState from '../../../server/modifyState.js';
+import actions from '../../../server/actions.js';
+
+
 
 class AppsList extends React.Component {
 	constructor(props) {
 		super(props);
-    this.state = {
-      apps: []
-    };
   }
 
   componentDidMount() {
-    axios.get(`/api/users/${this.props.user.username}/jobs`)
+    const { user } = store.getState();
+    axios.get(`/api/users/${user.username}/jobs`)
     .then(res => {
-      this.setState({
-        apps: res.data
-      })
+      store.dispatch(actions.setJobApplications(res.data));
+      this.setState( {} );
     })
     .catch(err => {
       console.log('ERROR fetching job applications from DB: ', err);
@@ -25,8 +27,9 @@ class AppsList extends React.Component {
   }
 
 	render() {
+    const { apps } = store.getState();
 
-    var applicationsList = this.state.apps.map( app => {
+    var applicationsList = apps.map( app => {
       return <AppsListItem key={app.id} app={app} />
     });
 
