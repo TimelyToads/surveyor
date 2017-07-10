@@ -20,17 +20,13 @@ class AppsListItem extends React.Component {
       }) || { date: '-', type: '-' },
     };
 
-    this.handleClick = () => {
-      this.props.handleClick(this.props.app.id);
-    }
-
   }
 
   render() {
 
     return (
 
-      <Table.Row textAlign='center' onClick={this.handleClick} >
+      <Table.Row textAlign='center' >
 
         <Table.Cell>	
           <AppActionsDashboard app={this.props.app} />
