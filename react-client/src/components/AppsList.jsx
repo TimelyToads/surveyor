@@ -18,7 +18,6 @@ class AppsList extends React.Component {
     const { user } = store.getState();
     axios.get(`/api/users/${user.username}/jobs`)
     .then(res => {
-      console.log('received response from DB: ', res.data);
       store.dispatch(actions.setJobApplications(res.data));
       this.setState( {} );
     })
