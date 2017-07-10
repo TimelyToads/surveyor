@@ -8,30 +8,9 @@ class AppsList extends React.Component {
 	constructor(props) {
 		super(props);
     this.state = {
-      // column: null,
-      // direction: null,
       apps: []
     };
-    this.handleClick = this.handleClick.bind(this);
   }
-
-  // handleSort = clickedColumn => () => {
-  //   const { column, data, direction } = this.state;
-
-  //   if (column !== clickedColumn) {
-  //     this.setState({
-  //       column: clickedColumn,
-  //       data: _.sortBy(data, [clickedColumn]),
-  //       direction: 'ascending',
-  //     });
-
-  //     return;
-  //   }
-  //   this.setState({
-  //     data: data.reverse(),
-  //     direction: direction === 'ascending' ? 'descending' : 'ascending',
-  //   });
-	// }
 
   componentDidMount() {
     axios.get(`/api/users/${this.props.user.username}/jobs`)
@@ -45,14 +24,10 @@ class AppsList extends React.Component {
     });
   }
 
-  handleClick(id) {
-    console.log('Table.Row click event: ', id);
-  }
-
 	render() {
 
     var applicationsList = this.state.apps.map( app => {
-      return <AppsListItem handleClick={this.handleClick} key={app.id} app={app} />
+      return <AppsListItem key={app.id} app={app} />
     });
 
 		return (

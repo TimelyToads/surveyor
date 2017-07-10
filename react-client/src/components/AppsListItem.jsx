@@ -2,34 +2,40 @@ import React from 'react';
 import AppActionsDashboard from './AppActionsDashboard.jsx'
 import { Header, Table, Rating, Image, Label } from 'semantic-ui-react'
 import Logo from './Logo.jsx';
+import moment from 'moment'
+var date = str => moment(str).format('dddd[,] MMM D');
 
 class AppsListItem extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.handleClick = () => {
-      this.props.handleClick(this.props.app.id);
-    }
-  }
+    this.props.app.actions.sort( (a, b) => {
+      return b.date > a.date ? -1 : 1;
+    });
 
+    this.state = {
+      focusAction: this.props.app.actions.find( action => {
+        return !action.completed;
+      }) || { date: '-', type: '-' },
+    };
+
+  }
 
   render() {
 
     return (
 
-      <Table.Row textAlign='center' onClick={this.handleClick} >
+      <Table.Row textAlign='center' >
 
         <Table.Cell>	
           <AppActionsDashboard app={this.props.app} />
         </Table.Cell>
         <Table.Cell>
-          {/* CHANGE THIS TO NEXT ACTION!!! */}
-          {this.props.app.state}
+          {this.state.focusAction.type}
         </Table.Cell>
         <Table.Cell>
-          {/* CHANGE THIS TO NEXT ACTION DUE DATE!!! */}
-          {this.props.app.city}
+          {date(this.state.focusAction.date).includes('Invalid date') ? '-' : date(this.state.focusAction.date)}
         </Table.Cell>
         <Table.Cell>
           {this.props.app.company}
